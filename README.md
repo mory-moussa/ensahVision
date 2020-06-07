@@ -153,10 +153,6 @@ Now goto src/application/OCR.java ,in line 36 provide your tesseract installatio
 # Please Note:
 Please Keep it in mind ,sometimes the face recognition algorithm provides wrong output if a person is not trained or unknown to the system.The reason behind this is that the face recognition algorithm guess the face with the nearest match.when it does not find any match ,the system pick any face with a nearest match.this is  why it sometimes provides wrong output.
 
-# Video Tutorial
-* Visit https://www.youtube.com/watch?v=6UnBZFvY8HE&t=3s
-
-
 # LICENCE
 
 ```licence
