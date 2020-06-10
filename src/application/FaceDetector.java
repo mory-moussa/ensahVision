@@ -118,11 +118,11 @@ public class FaceDetector implements Runnable {
 
 		setClassifier("haar/haarcascade_frontalface_alt.xml");
 		setClassifierEye("haar/haarcascade_eye.xml");
-		setClassifierEyeGlass("haar/haarcascade_eye_tree_eyeglasses.xml");
 		setClassifierSideFace("haar/haarcascade_profileface.xml");
-		setClassifierFullBody("haar/haarcascade_fullbody.xml");
 		setClassifierUpperBody("haar/haarcascade_upperbody.xml");
+		setClassifierFullBody("haar/haarcascade_fullbody.xml");
 		setClassifierSmile("haar/haarcascade_smile.xml");
+		setClassifierEyeGlass("haar/haarcascade_eye_tree_eyeglasses.xml");
 
 	}
 
@@ -237,6 +237,9 @@ public class FaceDetector implements Runnable {
 
 								if (smile != null) {
 									printResult(smile, smile.total(), g2);
+									System.out.println("pas smile!");
+								}else {
+									System.out.println("avec smile!");
 								}
 							} catch (Exception e) {
 								
@@ -266,7 +269,7 @@ public class FaceDetector implements Runnable {
 						}
 
 						if (faces != null) {
-							g2.setColor(Color.red);
+							g2.setColor(Color.green);
 							g2.setStroke(new BasicStroke(2));
 							int total = faces.total();
 
@@ -285,7 +288,7 @@ public class FaceDetector implements Runnable {
 								org = new CvPoint(r.x(), r.y());
 
 								if (isRecFace) {
-									String names="Unknown Person!";
+									String names="Personne inconnue!";
 									this.recogniseCode = faceRecognizer.recognize(temp);
 
 									//getting recognised user from the database

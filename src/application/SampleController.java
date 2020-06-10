@@ -143,7 +143,7 @@ public class SampleController {
 		//*******************************************************************************************
 		//initializing objects from start camera button event
 		faceDetect.init();
-
+      
 		faceDetect.setFrame(frame);
 
 		faceDetect.start();
@@ -158,11 +158,12 @@ public class SampleController {
 		}
 
 		//*******************************************************************************************
-		//Activating other buttons
+		//Activater les boutons
 		startCam.setVisible(false);
 		eyeBtn.setDisable(false);
 		stopBtn.setVisible(true);
-		//ocrBtn.setDisable(false);
+		ocrBtn.setDisable(false);
+		stopRecBtn.setDisable(true);
 		capBtn.setDisable(false);
 		motionBtn.setDisable(false);
 		gesture.setDisable(false);
@@ -173,14 +174,14 @@ public class SampleController {
 		}
 
 		dataPane.setDisable(false);
-		// shapeBtn.setDisable(false);
+		shapeBtn.setDisable(false);
 		smileBtn.setDisable(false);
 		fullBodyBtn.setDisable(false);
 		upperBodyBtn.setDisable(false);
 
-		if (stopRecBtn.isDisable()) {
+		/*if (stopRecBtn.isDisable()) {
 			stopRecBtn.setDisable(false);
-		}
+		}*/
 		//*******************************************************************************************
 		
 		
@@ -372,28 +373,19 @@ public class SampleController {
 					 savedLabel.setVisible(false);
 						 }
 						 });
+					
 
 				} catch (InterruptedException ex) {
 				}
 
 			}).start();
-			System.out.println("camaraa!!!!");
-           // startCamera();
-			String path = filePath;
-
-			File folder = new File(path);
-			File[] listOfFiles = folder.listFiles();
 			
-			//Image reader from the mentioned folder
-			for (final File file : listOfFiles) {
-
-				imageView1 = createImageView(file);
-				tile.getChildren().addAll(imageView1);
-			}
-			putOnLog(" Real Time WebCam Stream Started !");
 			faceDetect.setSaveFace(true);
+			stopCam();
+			startCamera();
 
 		}
+		
 
 	}
 
@@ -417,7 +409,12 @@ public class SampleController {
 		smileBtn.setDisable(true);
 		fullBodyBtn.setDisable(true);
 		upperBodyBtn.setDisable(true);
-		
+		shapeBtn.setDisable(true);
+		gesture.setDisable(true);
+		gestureStop.setDisable(true);
+		motionBtn.setDisable(true);
+		ocrBtn.setDisable(true);
+		capBtn.setDisable(true);
 		database.db_close();
 		putOnLog("Database Connection Closed");
 		isDBready=false;
@@ -427,9 +424,6 @@ public class SampleController {
 	protected void ocrStart() {
 
 		try {
-			/*tessInst= new Tesseract();
-			tessInst.setDatapath("C:\\Tess4J"); 
-			tessInst.setLanguage("eng");*/
 			
 			Text text1 = new Text(ocrObj.init());
 
