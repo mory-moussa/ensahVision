@@ -74,15 +74,15 @@ public class FaceDetector implements Runnable {
 	public boolean isMotion = false;
 	public boolean isEyeDetection = false;
 	public boolean isSmile = false;
-	public boolean isUpperBody = false;
-	public boolean isFullBody = false;
+	/*public boolean isUpperBody = false;
+	public boolean isFullBody = false;*/
 	private boolean stop = false;
 
 	private CvHaarClassifierCascade classifier = null;
 	private CvHaarClassifierCascade classifierEye = null;
 	private CvHaarClassifierCascade classifierSideFace = null;
-	private CvHaarClassifierCascade classifierUpperBody = null;
-	private CvHaarClassifierCascade classifierFullBody = null;
+	/*private CvHaarClassifierCascade classifierUpperBody = null;
+	private CvHaarClassifierCascade classifierFullBody = null;*/
 	private CvHaarClassifierCascade classifierSmile = null;
 	private CvHaarClassifierCascade classifierEyeglass = null;
 	
@@ -97,9 +97,9 @@ public class FaceDetector implements Runnable {
 	private CvSeq faces = null;
 	private CvSeq eyes = null;
 	private CvSeq smile = null;
-	private CvSeq upperBody = null;
+	/*private CvSeq upperBody = null;
+	private CvSeq fullBody = null;*/
 	private CvSeq sideface = null;
-	private CvSeq fullBody = null;
 
 	
 
@@ -119,8 +119,8 @@ public class FaceDetector implements Runnable {
 		setClassifier("haar/haarcascade_frontalface_alt.xml");
 		setClassifierEye("haar/haarcascade_eye.xml");
 		setClassifierSideFace("haar/haarcascade_profileface.xml");
-		setClassifierUpperBody("haar/haarcascade_upperbody.xml");
-		setClassifierFullBody("haar/haarcascade_fullbody.xml");
+		/*setClassifierUpperBody("haar/haarcascade_upperbody.xml");
+		setClassifierFullBody("haar/haarcascade_fullbody.xml");*/
 		setClassifierSmile("haar/haarcascade_smile.xml");
 		setClassifierEyeGlass("haar/haarcascade_eye_tree_eyeglasses.xml");
 
@@ -205,30 +205,7 @@ public class FaceDetector implements Runnable {
 
 						}
 
-						if (isFullBody) { //full body detection logic
-							fullBody = cvHaarDetectObjects(smallImage, classifierFullBody, storage, 1.1, 3,
-									CV_HAAR_DO_CANNY_PRUNING);
-
-							if (fullBody.total() > 0) {
-								printResult(fullBody, fullBody.total(), g2);
-							}
-
-						}
-
-						if (isUpperBody) {
-							try {
-								upperBody = cvHaarDetectObjects(smallImage, classifierUpperBody, storage, 1.1, 3,
-										CV_HAAR_DO_CANNY_PRUNING);
-
-								if (upperBody.total() > 0) {
-									printResult(upperBody, upperBody.total(), g2);
-								}
-
-							} catch (Exception e) {
-								
-								e.printStackTrace();
-							}
-						}
+					
 
 						if (isSmile) {
 							try {
@@ -506,34 +483,7 @@ public class FaceDetector implements Runnable {
 
 	}
 
-	public void setClassifierFullBody(String name) {
-
-		try {
-
-			setClassiferName(name);
-			classifierFile = Loader.extractResource(classiferName, null, "classifier", ".xml");
-
-			if (classifierFile == null || classifierFile.length() <= 0) {
-				throw new IOException("Could not extract \"" + classiferName + "\" from Java resources.");
-			}
-
-			// Preload the opencv_objdetect module to work around a known bug.
-			Loader.load(opencv_objdetect.class);
-			classifierFullBody = new CvHaarClassifierCascade(cvLoad(classifierFile.getAbsolutePath()));
-			classifierFile.delete();
-			if (classifier.isNull()) {
-				throw new IOException("Could not load the classifier file.");
-			}
-
-		} catch (Exception e) {
-			if (exception == null) {
-				exception = e;
-
-			}
-		}
-
-	}
-
+	
 	public void setClassifierEyeGlass(String name) {
 
 		try {
@@ -562,33 +512,6 @@ public class FaceDetector implements Runnable {
 
 	}
 
-	public void setClassifierUpperBody(String name) {
-
-		try {
-
-			classiferName = name;
-			classifierFile = Loader.extractResource(classiferName, null, "classifier", ".xml");
-
-			if (classifierFile == null || classifierFile.length() <= 0) {
-				throw new IOException("Could not extract \"" + classiferName + "\" from Java resources.");
-			}
-
-			// Preload the opencv_objdetect module to work around a known bug.
-			Loader.load(opencv_objdetect.class);
-			classifierUpperBody = new CvHaarClassifierCascade(cvLoad(classifierFile.getAbsolutePath()));
-			classifierFile.delete();
-			if (classifier.isNull()) {
-				throw new IOException("Could not load the classifier file.");
-			}
-
-		} catch (Exception e) {
-			if (exception == null) {
-				exception = e;
-
-			}
-		}
-
-	}
 
 	public String getClassiferName() {
 		return classiferName;
@@ -602,17 +525,6 @@ public class FaceDetector implements Runnable {
 		this.frames2 = frames2;
 	}
 
-	public void setSmile(boolean isSmile) {
-		this.isSmile = isSmile;
-	}
-
-	public void setUpperBody(boolean isUpperBody) {
-		this.isUpperBody = isUpperBody;
-	}
-
-	public void setFullBody(boolean isFullBody) {
-		this.isFullBody = isFullBody;
-	}
 
 	public boolean isEyeDetection() {
 

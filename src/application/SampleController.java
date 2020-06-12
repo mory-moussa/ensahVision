@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Separator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +20,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import java.awt.FontFormatException;
 import java.io.File;
@@ -27,6 +30,8 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
+
+import javax.swing.text.View;
 
 import application.FaceDetector;
 import application.Database;
@@ -42,6 +47,7 @@ public class SampleController {
 	
 	
 	//**********************************************************************************************
+	
 	@FXML
 	private Button startCam;
 	@FXML
@@ -53,11 +59,11 @@ public class SampleController {
 	@FXML
 	private Button shapeBtn;
 	@FXML
-	private Button upperBodyBtn;
+	private Button gitBtn;
 	@FXML
-	private Button fullBodyBtn;
+	private Button facebookBtn;
 	@FXML
-	private Button smileBtn;
+	private Button gmailBtn;
 	@FXML
 	private Button gesture;
 	@FXML
@@ -73,7 +79,27 @@ public class SampleController {
 	@FXML
 	private Button stopRecBtn;
 	@FXML
+	private Button instaBtn;
+	@FXML
+	private Button googleBtn;
+	@FXML
+	private Button twitterBtn;
+	@FXML
+	private Button no_twitterBtn;
+	@FXML
+	private Button no_instaBtn;
+	@FXML
+	private Button no_faceBtn;
+	@FXML
+	private Button no_gmailBtn;
+	@FXML
+	private Button no_googleBtn;
+	@FXML
+	private Button no_gitBtn;
+	@FXML
 	private ImageView frame;
+	@FXML
+	private WebView webview;
 	@FXML
 	private ImageView motionView;
 	@FXML
@@ -104,8 +130,8 @@ public class SampleController {
 	public Label warning;
 	@FXML
 	public Label title;
-	@FXML
-	public TilePane tile;
+//	@FXML
+//	public TilePane tile;
 	@FXML
 	public TextFlow ocr;
 //**********************************************************************************************
@@ -143,7 +169,7 @@ public class SampleController {
 		//*******************************************************************************************
 		//initializing objects from start camera button event
 		faceDetect.init();
-      
+        frame.setVisible(true);
 		faceDetect.setFrame(frame);
 
 		faceDetect.start();
@@ -168,40 +194,26 @@ public class SampleController {
 		motionBtn.setDisable(false);
 		gesture.setDisable(false);
 		saveBtn.setDisable(false);
-
+	
 		if (isDBready) {
 			recogniseBtn.setDisable(false);
 		}
 
 		dataPane.setDisable(false);
 		shapeBtn.setDisable(false);
-		smileBtn.setDisable(false);
-		fullBodyBtn.setDisable(false);
-		upperBodyBtn.setDisable(false);
-
+        webview.setVisible(false);
 		/*if (stopRecBtn.isDisable()) {
 			stopRecBtn.setDisable(false);
 		}*/
 		//*******************************************************************************************
 		
-		
-		tile.setPadding(new Insets(15, 15, 55, 15));
-		tile.setHgap(30);
-		
+//		
+//		tile.setPadding(new Insets(15, 15, 55, 15));
+//		tile.setHgap(30);
+//		
 		//**********************************************************************************************
 		//Picture Gallary
 		
-		String path = filePath;
-
-		File folder = new File(path);
-		File[] listOfFiles = folder.listFiles();
-		
-		//Image reader from the mentioned folder
-		for (final File file : listOfFiles) {
-
-			imageView1 = createImageView(file);
-			tile.getChildren().addAll(imageView1);
-		}
 		putOnLog(" Real Time WebCam Stream Started !");
 		
 		//**********************************************************************************************
@@ -215,13 +227,15 @@ public class SampleController {
 		faceDetect.setIsRecFace(true);
 		// printOutput(faceDetect.getOutput());
 
-		recogniseBtn.setText("Voir les données");
+		//recogniseBtn.setText("Voir les données");
 
 		//Getting detected faces
 		user = faceDetect.getOutput();
-
-		if (count > 0) {
-            
+           if(!user.isEmpty()) {
+        	   activeBtn();
+           }
+		if (count > 0 && !user.isEmpty()) {
+            recogniseBtn.setDisable(true);
 			//Retrieved data will be shown in Fetched Data pane
 			System.out.println("ça marche pas");
 			String t = "********* Face Data: " + user.get(1) + " " + user.get(2) + " *********";
@@ -263,13 +277,12 @@ public class SampleController {
 
 			output.setItems(outEvent);
 
-		}else if(count> 1) {
-			recogniseBtn.setText("Supprimer la personne");
 		}
 
 		count++;
+		saveBtn.setDisable(true);
 
-		putOnLog("Face Recognition Activated !");
+		putOnLog("Reconaissance faciale activée !");
 
 		stopRecBtn.setDisable(false);
 
@@ -280,13 +293,12 @@ public class SampleController {
         count=0;
 		faceDetect.setIsRecFace(false);
 		faceDetect.clearOutput();
-
+		disableBtn();
 		this.user.clear();
-
-		recogniseBtn.setText("Recognise Face");
-
+		recogniseBtn.setDisable(false);
+		//recogniseBtn.setText("Recognise Face");
+		saveBtn.setDisable(false);
 		stopRecBtn.setDisable(true);
-
 		putOnLog("Face Recognition Deactivated !");
 
 	}
@@ -370,7 +382,7 @@ public class SampleController {
 						
 						@Override
 						 public void run() {
-					 savedLabel.setVisible(false);
+					       savedLabel.setVisible(false);
 						 }
 						 });
 					
@@ -381,34 +393,28 @@ public class SampleController {
 			}).start();
 			
 			faceDetect.setSaveFace(true);
-			stopCam();
-			startCamera();
 
 		}
-		
-
+         
 	}
 
 	@FXML
 	protected void stopCam() throws SQLException {
 
 		faceDetect.stop();
-  
 		startCam.setVisible(true);
 		stopBtn.setVisible(false);
-
+        
 		/* this.saveFace=true; */
 
 		putOnLog("Cam Stream Stopped!");
-
+        frame.setVisible(false);
 		recogniseBtn.setDisable(true);
 		saveBtn.setDisable(true);
 		dataPane.setDisable(true);
 		stopRecBtn.setDisable(true);
+		disableBtn();
 		eyeBtn.setDisable(true);
-		smileBtn.setDisable(true);
-		fullBodyBtn.setDisable(true);
-		upperBodyBtn.setDisable(true);
 		shapeBtn.setDisable(true);
 		gesture.setDisable(true);
 		gestureStop.setDisable(true);
@@ -450,45 +456,125 @@ public class SampleController {
 
 		faceDetect.stop();
 		cot.init();
-
 		Thread th = new Thread(cot);
 		th.start();
-
 		gesture.setVisible(false);
 		gestureStop.setVisible(true);
 
 	}
-
+    int eye_count=0;
 	@FXML
 	protected void startEyeDetect() {
-
-		faceDetect.setEyeDetection(true);
-		eyeBtn.setDisable(true);
-
+          if(eye_count > 0) { 
+           faceDetect.setEyeDetection(false);
+           eye_count =0;
+           }
+          else {  
+		 faceDetect.setEyeDetection(true);
+         eye_count++;
+         }
 	}
 
 	@FXML
-	protected void upperBodyStart() {
+	protected void gitStart() {
 
-		faceDetect.setUpperBody(true);
-		;
-		upperBodyBtn.setDisable(true);
+		    activeBtn();
+		    noVisibleBtn();
+		    no_gitBtn.setVisible(true);
+		    webview.setVisible(true);
+		    frame.setVisible(false);
+		    VisibleBtn();
+		    gitBtn.setVisible(false); 
 
+	        // Get WebEngine via WebView
+	        WebEngine webEngine =webview.getEngine();
+	         
+	        // Load page
+	        webEngine.load("https://github.com/");
+
+	}
+	@FXML
+	protected void onInsta() {
+		
+		    activeBtn();
+		    noVisibleBtn();
+		    no_instaBtn.setVisible(true);
+		    webview.setVisible(true);
+		    frame.setVisible(false);
+		    VisibleBtn();
+		    instaBtn.setVisible(false);
+
+	        // Get WebEngine via WebView
+	        WebEngine webEngine =webview.getEngine();
+	         
+	        // Load page
+	        webEngine.load("https://www.instagram.com/");
+
+	}
+	@FXML
+	protected void onTwitter() {
+
+		    activeBtn();
+		    noVisibleBtn();
+		    no_twitterBtn.setVisible(true);
+		    webview.setVisible(true);
+		    frame.setVisible(false);
+		    VisibleBtn();
+		    twitterBtn.setVisible(false);
+
+	        // Get WebEngine via WebView
+	        WebEngine webEngine =webview.getEngine();
+	         
+	        // Load page
+	        webEngine.load("https://twitter.com/login?lang=fr");
+
+	}
+	@FXML
+	protected void onGoogle() {
+		  
+            activeBtn();
+		    noVisibleBtn();
+		    no_googleBtn.setVisible(true);
+		    webview.setVisible(true);
+		    frame.setVisible(false);
+		    VisibleBtn();
+		    googleBtn.setVisible(false);
+	        // Get WebEngine via WebView
+	        WebEngine webEngine =webview.getEngine();
+	        // Load page
+	        webEngine.load("https://www.google.fr/");
+
+	}
+	@FXML
+	protected void facebookStart() {
+		activeBtn();
+		noVisibleBtn();
+		no_faceBtn.setVisible(true);
+		webview.setVisible(true);
+		frame.setVisible(false);
+		VisibleBtn();
+		facebookBtn.setVisible(false);
+        // Get WebEngine via WebView
+        WebEngine webEngine =webview.getEngine();    
+        // Load page
+        webEngine.load("https://www.facebook.com/");
 	}
 
 	@FXML
-	protected void fullBodyStart() {
+	protected void gmailStart() {
 
-		faceDetect.setFullBody(true);
-		fullBodyBtn.setDisable(true);
-
-	}
-
-	@FXML
-	protected void smileStart() {
-
-		faceDetect.setSmile(true);
-		smileBtn.setDisable(true);
+		    activeBtn();
+		    noVisibleBtn();
+		    no_gmailBtn.setVisible(true);
+		    webview.setVisible(true);
+		    frame.setVisible(false);
+		    VisibleBtn();
+		    gmailBtn.setVisible(false);
+        // Get WebEngine via WebView
+        WebEngine webEngine =webview.getEngine();
+         
+        // Load page
+        webEngine.load("https://mail.google.com/");
 
 	}
 
@@ -497,7 +583,6 @@ public class SampleController {
 
 		cot.stop();
 		faceDetect.start();
-
 		gesture.setVisible(true);
 		gestureStop.setVisible(false);
 
@@ -506,11 +591,58 @@ public class SampleController {
 	@FXML
 	protected void shapeStart() {
 
-		// faceDetect.stop();
-
+		faceDetect.stop();
 		SquareDetector shapeFrame = new SquareDetector();
 		shapeFrame.loop();
+		
 
+	}
+	@FXML
+	protected void onExitFace() {
+		no_faceBtn.setVisible(false);
+		facebookBtn.setVisible(true);
+		frame.setVisible(true);
+		webview.setVisible(false);
+	}
+	@FXML
+	protected void onExitGit() {
+		 no_gitBtn.setVisible(false);
+		  gitBtn.setVisible(true);
+		  frame.setVisible(true);
+		  webview.setVisible(false);
+		
+	}
+	@FXML
+	protected void onExitGoogle() {
+      no_googleBtn.setVisible(false);
+	  googleBtn.setVisible(true);
+	  frame.setVisible(true);
+	  webview.setVisible(false);
+	}
+	@FXML
+	protected void onExitGmail() {
+
+		 no_gmailBtn.setVisible(false);
+		  gmailBtn.setVisible(true);
+		  frame.setVisible(true);
+		  webview.setVisible(false);
+	}
+	@FXML
+	protected void onExitTwitter() {
+		 no_twitterBtn.setVisible(false);
+		  twitterBtn.setVisible(true);
+		  frame.setVisible(true);
+		  webview.setVisible(false);
+		
+	}
+
+	@FXML
+	protected void onExitInsta() {
+		 no_instaBtn.setVisible(false);
+		  instaBtn.setVisible(true);
+		  frame.setVisible(true);
+		  webview.setVisible(false);
+		
 	}
 
 	private ImageView createImageView(final File imageFile) {
@@ -531,6 +663,51 @@ public class SampleController {
 		}
 
 		return imageView1;
+	}
+	/*public void loadPhotos() {
+		String path = filePath;
+
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		
+		//Image reader from the mentioned folder
+		for (final File file : listOfFiles) {
+
+			imageView1 = createImageView(file);
+			tile.getChildren().addAll(imageView1);
+		}
+	}*/
+	protected void disableBtn() {
+		googleBtn.setDisable(true);
+		gmailBtn.setDisable(true);
+		facebookBtn.setDisable(true);
+	    gitBtn.setDisable(true);
+	    instaBtn.setDisable(true);
+	    twitterBtn.setDisable(true);
+	}
+	protected void activeBtn() {
+		googleBtn.setDisable(false);
+	    gmailBtn.setDisable(false);
+	    facebookBtn.setDisable(false);
+	    gitBtn.setDisable(false);
+	    instaBtn.setDisable(false);
+	    twitterBtn.setDisable(false);
+	}
+	protected void noVisibleBtn() {
+		no_faceBtn.setVisible(false);
+		no_gitBtn.setVisible(false);
+		no_gmailBtn.setVisible(false);
+		no_googleBtn.setVisible(false);
+		no_instaBtn.setVisible(false);
+		no_twitterBtn.setVisible(false);
+	}
+	protected void VisibleBtn() {
+		facebookBtn.setVisible(true);
+		gitBtn.setVisible(true);
+		gmailBtn.setVisible(true);
+		googleBtn.setVisible(true);
+		instaBtn.setVisible(true);
+		twitterBtn.setVisible(true);
 	}
 
 }

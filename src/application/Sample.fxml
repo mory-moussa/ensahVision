@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.web.WebView?>
 
-<BorderPane prefHeight="720.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane prefHeight="873.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
-      <TitledPane alignment="CENTER" collapsible="false" ellipsisString="" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="712.0" text="EnsahVision" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER">
+      <TitledPane alignment="CENTER" collapsible="false" ellipsisString="" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0" prefWidth="782.0" text="EnsahVision" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="749.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="630.0" prefWidth="771.0">
                <children>
-                  <ImageView fx:id="frame" fitHeight="417.0" fitWidth="601.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="90.0">
+                  <WebView fx:id="webview" layoutX="3.0" layoutY="4.0" prefHeight="591.0" prefWidth="688.0" />
+                  <ImageView fx:id="frame" fitHeight="481.0" fitWidth="594.0" layoutX="27.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="125.0">
                      <viewport>
                         <Rectangle2D width="700.0" />
                      </viewport></ImageView>
-                  <Button fx:id="startCam" layoutX="3.0" layoutY="424.0" mnemonicParsing="false" onAction="#startCamera" prefHeight="55.0" prefWidth="102.0" styleClass="aaa" stylesheets="@application.css" />
-                  <Button id="savef" fx:id="saveBtn" disable="true" layoutX="109.0" layoutY="425.0" mnemonicParsing="false" onAction="#saveFace" prefHeight="55.0" prefWidth="91.0" stylesheets="@application.css" />
-                  <Button fx:id="recogniseBtn" disable="true" layoutX="374.0" layoutY="423.0" mnemonicParsing="false" onAction="#faceRecognise" prefHeight="55.0" prefWidth="158.0" style="-fx-background-color:gold;" styleClass="recog" stylesheets="@application.css">
-                     <font>
-                        <Font size="10.0"  />
-                     </font></Button>
-                  <Button fx:id="capBtn" disable="true" layoutX="622.0" layoutY="380.0" minHeight="47.0" mnemonicParsing="false" onAction="#capture" prefHeight="47.0" prefWidth="90.0" styleClass="capture" stylesheets="@application.css">
+                  <Button fx:id="startCam" layoutX="3.0" layoutY="595.0" mnemonicParsing="false" onAction="#startCamera" prefHeight="60.0" prefWidth="90.0" styleClass="aaa" stylesheets="@application.css" />
+                  <Button id="savef" fx:id="saveBtn" disable="true" layoutX="100.0" layoutY="595.0" minWidth="89.0" mnemonicParsing="false" onAction="#saveFace" prefHeight="60.0" prefWidth="89.0" stylesheets="@application.css" />
+                  <Button fx:id="recogniseBtn" disable="true" layoutX="296.0" layoutY="596.0" minWidth="82.0" mnemonicParsing="false" onAction="#faceRecognise" prefHeight="60.0" prefWidth="95.0" style="-fx-background-color:gold;" styleClass="recog" stylesheets="@application.css">
                      <font>
                         <Font size="10.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="stopBtn" layoutX="3.0" layoutY="424.0" mnemonicParsing="false" onAction="#stopCam" prefHeight="55.0" prefWidth="102.0" styleClass="stop1" stylesheets="@application.css"  visible="false" />
-                  <Separator layoutX="252.0" layoutY="411.0" prefWidth="200.0" />
+                     </font></Button>
+                  <Button fx:id="stopBtn" layoutX="3.0" layoutY="595.0" minHeight="57.0" mnemonicParsing="false" onAction="#stopCam" prefHeight="60.0" prefWidth="90.0" styleClass="stop1" stylesheets="@application.css" visible="false" />
                   <Label fx:id="savedLabel" layoutX="282.0" layoutY="207.0" prefHeight="52.0" prefWidth="215.0" text=" Face  Saved !" underline="true" visible="false">
                      <font>
                         <Font name="Vonique 92" size="25.0" />
@@ -48,17 +56,17 @@
                      </textFill>
                   </Label>
                   <ProgressIndicator fx:id="pb" layoutX="360.0" layoutY="156.0" progress="0.0" visible="false" />
-                  <Label fx:id="warning" layoutX="141.0" layoutY="365.0" prefHeight="52.0" prefWidth="447.0" style="-fx-background-color: #e53b24; -fx-background-radius: 14px;" text="Veuillez remplir toutes les données personnelles !" textFill="WHITE" underline="true" visible="false">
+                  <Label fx:id="warning" layoutX="118.0" layoutY="463.0" prefHeight="38.0" prefWidth="482.0" style="-fx-background-color: #e53b24; -fx-background-radius: 14px;" text="Veuillez remplir toutes les données personnelles !" textFill="WHITE" underline="true" visible="false">
                      <font>
                         <Font name="Estrangelo Edessa" size="19.0" />
                      </font>
                   </Label>
-                  <Button fx:id="stopRecBtn" disable="true" layoutX="532.0" layoutY="423.0" mnemonicParsing="false" onAction="#stopRecognise" prefHeight="60.0" prefWidth="89.0" styleClass="stop2" stylesheets="@application.css" text="STOP" textFill="#fa1111">
+                  <Button fx:id="stopRecBtn" disable="true" layoutX="399.0" layoutY="595.0" minWidth="87.0" mnemonicParsing="false" onAction="#stopRecognise" prefHeight="60.0" prefWidth="87.0" styleClass="stop2" stylesheets="@application.css" text="STOP" textFill="#fa1111">
                      <font>
                         <Font name="Gabriola" size="18.0" />
                      </font></Button>
-                  <Button fx:id="ocrBtn" disable="true" layoutX="623.0" layoutY="428.0" mnemonicParsing="false" onAction="#ocrStart" prefHeight="52.0" prefWidth="85.0" styleClass="ocr" stylesheets="@application.css" />
-                  <Button fx:id="motionBtn" disable="true" layoutX="203.0" layoutY="425.0" mnemonicParsing="false" onAction="#startMotion" prefHeight="55.0" prefWidth="163.0" styleClass="motion" stylesheets="@application.css">
+                  <Button fx:id="ocrBtn" disable="true" layoutX="692.0" layoutY="595.0" minWidth="85.0" mnemonicParsing="false" onAction="#ocrStart" prefHeight="60.0" prefWidth="85.0" styleClass="ocr" stylesheets="@application.css" />
+                  <Button fx:id="motionBtn" disable="true" layoutX="199.0" layoutY="595.0" mnemonicParsing="false" onAction="#startMotion" prefHeight="60.0" prefWidth="90.0" styleClass="motion" stylesheets="@application.css">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
@@ -77,29 +85,43 @@
                         </LinearGradient>
                      </textFill>
                   </Button>
-                  <Button fx:id="gesture" disable="true" layoutX="621.0" layoutY="3.0" mnemonicParsing="false" onAction="#startGesture" prefHeight="61.0" prefWidth="86.0" style="-fx-background-color: cyan;" styleClass="gesture" stylesheets="@application.css" textFill="#9a11e4">
+                  <Button fx:id="gesture" disable="true" layoutX="692.0" layoutY="3.0" minWidth="84.0" mnemonicParsing="false" onAction="#startGesture" prefHeight="61.0" prefWidth="92.0" style="-fx-background-color: cyan;" styleClass="gesture" stylesheets="@application.css" textFill="#9a11e4">
                      <font>
                         <Font name="Century" size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gestureStop" layoutX="621.0" layoutY="3.0" mnemonicParsing="false" onAction="#stopGesture" prefHeight="61.0" prefWidth="86.0" text="Stop Gesture" textFill="#9a11e4" visible="false">
+                  <Button fx:id="gestureStop" layoutX="621.0" layoutY="3.0" mnemonicParsing="false" onAction="#stopGesture" prefHeight="61.0" prefWidth="146.0" text="Stop Gesture" textFill="#9a11e4" visible="false">
                      <font>
                         <Font name="Century" size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="eyeBtn" disable="true" layoutX="622.0" layoutY="71.0" mnemonicParsing="false" onAction="#startEyeDetect" prefHeight="56.0" prefWidth="86.0" styleClass="eye" stylesheets="@application.css" />
-                  <Button fx:id="shapeBtn" disable="true" layoutX="622.0" layoutY="133.0" mnemonicParsing="false" onAction="#shapeStart" prefHeight="56.0" prefWidth="86.0" styleClass="sqr" stylesheets="@application.css" />
-                  <Button fx:id="upperBodyBtn" disable="true" layoutX="622.0" layoutY="196.0" mnemonicParsing="false" onAction="#upperBodyStart" prefHeight="56.0" prefWidth="86.0" styleClass="upperbody" stylesheets="@application.css" text="Upperbody">
+                  <Button fx:id="eyeBtn" disable="true" layoutX="497.0" layoutY="595.0" minWidth="84.0" mnemonicParsing="false" onAction="#startEyeDetect" prefHeight="60.0" prefWidth="84.0" styleClass="eye" stylesheets="@application.css" />
+                  <Button fx:id="shapeBtn" disable="true" layoutX="593.0" layoutY="596.0" mnemonicParsing="false" onAction="#shapeStart" prefHeight="60.0" prefWidth="92.0" styleClass="sqr" stylesheets="@application.css" />
+                  <Button fx:id="gitBtn" disable="true" layoutX="692.0" layoutY="294.0" minWidth="76.0" mnemonicParsing="false" onAction="#gitStart" prefHeight="68.0" prefWidth="90.0" styleClass="git" stylesheets="@application.css">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="smileBtn" disable="true" layoutX="621.0" layoutY="259.0" mnemonicParsing="false" onAction="#smileStart" prefHeight="56.0" prefWidth="86.0" styleClass="smiles" stylesheets="@application.css" text="Smile" />
-                  <Button fx:id="fullBodyBtn" disable="true" layoutX="621.0" layoutY="322.0" mnemonicParsing="false" onAction="#fullBodyStart" prefHeight="56.0" prefWidth="86.0" styleClass="fullbody" stylesheets="@application.css">
+                  <Button fx:id="gmailBtn" disable="true" layoutX="691.0" layoutY="373.0" mnemonicParsing="false" onAction="#gmailStart" prefHeight="65.0" prefWidth="90.0" styleClass="gmail" stylesheets="@application.css" />
+                  <Button fx:id="capBtn" disable="true" layoutX="693.0" layoutY="524.0" minHeight="47.0" minWidth="76.0" mnemonicParsing="false" onAction="#capture" prefHeight="61.0" prefWidth="90.0" styleClass="capture" stylesheets="@application.css">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="facebookBtn" disable="true" layoutX="691.0" layoutY="447.0" minWidth="78.0" mnemonicParsing="false" onAction="#facebookStart" prefHeight="69.0" prefWidth="90.0" styleClass="facebook" stylesheets="@application.css">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Button>
+                  <Button fx:id="instaBtn" disable="true" layoutX="693.0" layoutY="218.0" mnemonicParsing="false" onAction="#onInsta" prefHeight="70.0" prefWidth="90.0" styleClass="insta" stylesheets="@application.css" />
+                  <Button fx:id="twitterBtn" disable="true" layoutX="693.0" layoutY="147.0" mnemonicParsing="false" onAction="#onTwitter" prefHeight="65.0" prefWidth="92.0" styleClass="twitter" stylesheets="@application.css" />
+                  <Button fx:id="googleBtn" disable="true" layoutX="693.0" layoutY="75.0" mnemonicParsing="false" onAction="#onGoogle" prefHeight="61.0" prefWidth="90.0" styleClass="google" stylesheets="@application.css" />
+                  <Button fx:id="no_googleBtn" layoutX="695.0" layoutY="76.0" mnemonicParsing="false" onAction="#onExitGoogle" prefHeight="53.0" prefWidth="84.0" styleClass="no" stylesheets="@application.css" visible="false" />
+                  <Button fx:id="no_twitterBtn" layoutX="695.0" layoutY="145.0" mnemonicParsing="false" onAction="#onExitTwitter" prefHeight="61.0" prefWidth="83.0" styleClass="no" stylesheets="@application.css" visible="false" />
+                  <Button fx:id="no_instaBtn" layoutX="698.0" layoutY="229.0" mnemonicParsing="false" onAction="#onExitInsta" prefHeight="61.0" prefWidth="87.0" styleClass="no" stylesheets="@application.css" visible="false" />
+                  <Button fx:id="no_gitBtn" layoutX="693.0" layoutY="300.0" mnemonicParsing="false" onAction="#onExitGit" prefHeight="55.0" prefWidth="85.0" styleClass="no" stylesheets="@application.css" visible="false" />
+                  <Button fx:id="no_gmailBtn" layoutX="692.0" layoutY="376.0" mnemonicParsing="false" onAction="#onExitGmail" prefHeight="55.0" prefWidth="87.0" styleClass="no" stylesheets="@application.css" visible="false" />
+                  <Button fx:id="no_faceBtn" layoutX="692.0" layoutY="453.0" mnemonicParsing="false" onAction="#onExitFace" prefHeight="58.0" prefWidth="87.0" styleClass="no" stylesheets="@application.css" visible="false" />
                </children>
             </AnchorPane>
         </content>
@@ -113,26 +135,26 @@
             <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="0.9714285714285714">
                <stops>
                   <Stop color="#be0ada" />
-                  <Stop color="#0a090a" offset="1.0" />
+                  <Stop color="#cf3b36ed" offset="1.0" />
                </stops>
             </LinearGradient>
          </textFill>
       </TitledPane>
    </center>
    <left>
-      <TitledPane fx:id="dataPane" disable="true" prefHeight="528.0" prefWidth="302.0" text="Données personelles" BorderPane.alignment="CENTER">
+      <TitledPane fx:id="dataPane" disable="true" prefHeight="705.0" prefWidth="302.0" text="Données personelles" BorderPane.alignment="CENTER">
          <content>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="276.0" prefWidth="300.0">
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="532.0" prefWidth="300.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <ListView fx:id="output" editable="true" layoutX="4.0" layoutY="4.0" prefHeight="242.0" prefWidth="290.0" style="-fx-padding: 10;">
+                        <ListView fx:id="output" editable="true" layoutX="4.0" layoutY="4.0" prefHeight="313.0" prefWidth="290.0" style="-fx-padding: 10;">
                            <effect>
                               <Glow />
                            </effect>
                         </ListView>
                      </children></AnchorPane>
-                <AnchorPane fx:id="pdPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane fx:id="pdPane" minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="300.0">
                      <children>
                         <Label fx:id="title" layoutX="31.0" layoutY="-1.0" text="Les données de la personne:">
                            <font>
@@ -147,39 +169,39 @@
                               </LinearGradient>
                            </textFill>
                         </Label>
-                        <Label layoutX="29.0" layoutY="70.0" text="Nom">
+                        <Label layoutX="12.0" layoutY="86.0" text="Nom">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="fname" layoutX="98.0" layoutY="73.0" prefHeight="25.0" prefWidth="181.0" promptText="Entrez votre nom" />
-                        <TextField fx:id="code" layoutX="97.0" layoutY="40.0" prefHeight="25.0" prefWidth="181.0" promptText="Code visage unique" />
-                        <Label layoutX="28.0" layoutY="37.0" text="Code:">
+                        <TextField fx:id="fname" layoutX="92.0" layoutY="88.0" prefHeight="25.0" prefWidth="187.0" promptText="Entrez votre nom" />
+                        <TextField fx:id="code" layoutX="92.0" layoutY="48.0" prefHeight="25.0" prefWidth="181.0" promptText="Code visage unique" />
+                        <Label layoutX="9.0" layoutY="43.0" text="Code:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="24.0" layoutY="102.0" text="Prénom">
+                        <Label layoutX="9.0" layoutY="130.0" text="Prénom">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="lname" layoutX="97.0" layoutY="105.0" prefHeight="25.0" prefWidth="181.0" promptText="Entrez votre prénom" />
+                        <TextField fx:id="lname" layoutX="94.0" layoutY="133.0" prefHeight="25.0" prefWidth="183.0" promptText="Entrez votre prénom" />
                         <Separator layoutX="34.0" layoutY="33.0" prefHeight="6.0" prefWidth="239.0" />
-                        <TextField fx:id="sec" layoutX="96.0" layoutY="201.0" prefHeight="25.0" prefWidth="181.0" />
-                        <Label layoutX="23.0" layoutY="198.0" text="Section">
+                        <TextField fx:id="sec" layoutX="97.0" layoutY="252.0" prefHeight="25.0" prefWidth="181.0" />
+                        <Label layoutX="2.0" layoutY="249.0" text="Section">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="27.0" layoutY="133.0" text=" Reg .">
+                        <Label layoutX="6.0" layoutY="166.0" text=" Reg .">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="reg" layoutX="96.0" layoutY="136.0" prefHeight="25.0" prefWidth="181.0" promptText="Reg.No" />
-                        <TextField fx:id="age" layoutX="97.0" layoutY="169.0" prefHeight="25.0" prefWidth="181.0" />
-                        <Label layoutX="28.0" layoutY="166.0" text="Age">
+                        <TextField fx:id="reg" layoutX="92.0" layoutY="169.0" prefHeight="25.0" prefWidth="187.0" promptText="Reg.No" />
+                        <TextField fx:id="age" layoutX="92.0" layoutY="209.0" prefHeight="25.0" prefWidth="186.0" />
+                        <Label layoutX="13.0" layoutY="207.0" text="Age">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -192,9 +214,9 @@
          </content></TitledPane>
    </left>
    <right>
-      <TitledPane animated="false" prefHeight="524.0" prefWidth="266.0" text="Informations " BorderPane.alignment="CENTER">
+      <TitledPane animated="false" prefHeight="707.0" prefWidth="266.0" text="Informations " BorderPane.alignment="CENTER">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="498.0" prefWidth="338.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="490.0" prefWidth="264.0">
                <children>
                   <SplitPane layoutX="2.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="496.0" prefWidth="280.0">
                     <items>
@@ -237,9 +259,9 @@
                                     </Label>
                                     <ScrollPane layoutX="2.0" layoutY="279.0" prefHeight="204.0" prefWidth="264.0">
                                       <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="252.0">
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="201.0" prefWidth="252.0">
                                              <children>
-                                                <TextFlow fx:id="ocr" focusTraversable="true" layoutX="2.0" layoutY="3.0" prefHeight="200.0" prefWidth="250.0" />
+                                                <TextFlow fx:id="ocr" focusTraversable="true" layoutX="2.0" layoutY="3.0" prefHeight="205.0" prefWidth="250.0" />
                                              </children>
                                           </AnchorPane>
                                       </content>
@@ -254,23 +276,5 @@
         </content>
       </TitledPane>
    </right>
-   <bottom>
-      <Pane prefHeight="195.0" prefWidth="1354.0" BorderPane.alignment="CENTER">
-         <children>
-            <TitledPane animated="false" prefHeight="206.0" prefWidth="1350.0" text="Face Database">
-              <content>
-                  <ScrollPane prefViewportHeight="180.0" prefViewportWidth="1348.0">
-                     <content>
-                        <TilePane fx:id="tile" hgap="30.0" prefHeight="181.0" prefWidth="1438.0" vgap="30.0">
-                           <padding>
-                              <Insets bottom="50.0" />
-                           </padding>
-                        </TilePane>
-                     </content>
-                  </ScrollPane>
-              </content>
-            </TitledPane>
-         </children>
-      </Pane>
-   </bottom>
+
 </BorderPane>
