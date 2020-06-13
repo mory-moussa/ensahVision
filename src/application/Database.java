@@ -15,7 +15,7 @@ class Database {
 
 	public final String Database_name = "ghosteye";
 	public final String Database_user = "root";
-	public final String Database_pass = "root";
+	public final String Database_pass = "";
 
 	public Connection con;
 
@@ -134,6 +134,29 @@ class Database {
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+public void userDelete(String fname,String lname ) {
+		
+		String sql = "DELETE FROM face_bio "+
+				      "WHERE first_name='"+fname+"' AND last_name='"+lname+"'";
+		System.out.println(sql);
+
+		try {
+
+
+			Statement s = con.createStatement();
+
+			 
+			if (s.executeUpdate(sql)!=0) {
+				System.out.println("A face data was deleted successfully!");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("hey");
 			e.printStackTrace();
 		}
 	}
