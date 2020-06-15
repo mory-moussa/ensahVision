@@ -65,9 +65,9 @@ public class SampleController {
 	@FXML
 	private Button gmailBtn;
 	@FXML
-	private Button gesture;
+	private Button exit1;
 	@FXML
-	private Button gestureStop;
+	private Button supprimeruser ;
 	@FXML
 	private Button saveBtn;
 	@FXML
@@ -171,7 +171,7 @@ public class SampleController {
 		faceDetect.init();
         frame.setVisible(true);
 		faceDetect.setFrame(frame);
-
+		supprimeruser.setVisible(false);
 		faceDetect.start();
 
 		if (!database.init()) {
@@ -192,7 +192,7 @@ public class SampleController {
 		stopRecBtn.setDisable(true);
 		capBtn.setDisable(false);
 		motionBtn.setDisable(false);
-		gesture.setDisable(false);
+		exit1.setDisable(false);
 		saveBtn.setDisable(false);
 	
 		if (isDBready) {
@@ -234,7 +234,12 @@ public class SampleController {
            if(!user.isEmpty()) {
         	   activeBtn();
            }
+           
+ 
+           
+           
 		if (count > 0 && !user.isEmpty()) {
+			supprimeruser.setVisible(true);
             recogniseBtn.setDisable(true);
 			//Retrieved data will be shown in Fetched Data pane
 			System.out.println("ça marche pas");
@@ -296,6 +301,7 @@ public class SampleController {
 		disableBtn();
 		this.user.clear();
 		recogniseBtn.setDisable(false);
+		supprimeruser.setVisible(false);
 		//recogniseBtn.setText("Recognise Face");
 		saveBtn.setDisable(false);
 		stopRecBtn.setDisable(true);
@@ -305,7 +311,8 @@ public class SampleController {
 
 	@FXML
 	protected void startMotion() {
-
+        
+		supprimeruser.setVisible(false);
 		faceDetect.setMotion(true);
 		putOnLog("motion Detector Activated !");
 
@@ -314,6 +321,7 @@ public class SampleController {
 	@FXML
 	protected void saveFace() throws SQLException {
 
+		supprimeruser.setVisible(false);
 		//Input Validation
 		if (fname.getText().trim().isEmpty() || reg.getText().trim().isEmpty() || code.getText().trim().isEmpty()) {
 
@@ -404,6 +412,7 @@ public class SampleController {
 		faceDetect.stop();
 		startCam.setVisible(true);
 		stopBtn.setVisible(false);
+		supprimeruser.setVisible(false);
         
 		/* this.saveFace=true; */
 
@@ -416,8 +425,8 @@ public class SampleController {
 		disableBtn();
 		eyeBtn.setDisable(true);
 		shapeBtn.setDisable(true);
-		gesture.setDisable(true);
-		gestureStop.setDisable(true);
+		exit1.setDisable(true);
+		supprimeruser.setDisable(true);
 		motionBtn.setDisable(true);
 		ocrBtn.setDisable(true);
 		capBtn.setDisable(true);
@@ -429,6 +438,7 @@ public class SampleController {
 	@FXML
 	protected void ocrStart() {
 
+		supprimeruser.setVisible(false);
 		try {
 			
 			Text text1 = new Text(ocrObj.init());
@@ -447,24 +457,23 @@ public class SampleController {
 	@FXML
 	protected void capture() {
 
+		supprimeruser.setVisible(false);
 		faceDetect.setOcrMode(true);
 
 	}
 
 	@FXML
-	protected void startGesture() {
+	protected void exitfenetre() {
+       
 
-		faceDetect.stop();
-		cot.init();
-		Thread th = new Thread(cot);
-		th.start();
-		gesture.setVisible(false);
-		gestureStop.setVisible(true);
+		System.exit(0);
+		
 
 	}
     int eye_count=0;
 	@FXML
 	protected void startEyeDetect() {
+		supprimeruser.setVisible(false);
           if(eye_count > 0) { 
            faceDetect.setEyeDetection(false);
            eye_count =0;
@@ -478,6 +487,8 @@ public class SampleController {
 	@FXML
 	protected void gitStart() {
 
+		
+		    supprimeruser.setVisible(false);
 		    activeBtn();
 		    noVisibleBtn();
 		    no_gitBtn.setVisible(true);
@@ -496,6 +507,7 @@ public class SampleController {
 	@FXML
 	protected void onInsta() {
 		
+		    supprimeruser.setVisible(false);
 		    activeBtn();
 		    noVisibleBtn();
 		    no_instaBtn.setVisible(true);
@@ -514,6 +526,8 @@ public class SampleController {
 	@FXML
 	protected void onTwitter() {
 
+		
+		    supprimeruser.setVisible(false);
 		    activeBtn();
 		    noVisibleBtn();
 		    no_twitterBtn.setVisible(true);
@@ -531,7 +545,7 @@ public class SampleController {
 	}
 	@FXML
 	protected void onGoogle() {
-		  
+		    supprimeruser.setVisible(false);
             activeBtn();
 		    noVisibleBtn();
 		    no_googleBtn.setVisible(true);
@@ -547,6 +561,8 @@ public class SampleController {
 	}
 	@FXML
 	protected void facebookStart() {
+		
+		supprimeruser.setVisible(false);
 		activeBtn();
 		noVisibleBtn();
 		no_faceBtn.setVisible(true);
@@ -562,7 +578,9 @@ public class SampleController {
 
 	@FXML
 	protected void gmailStart() {
-
+		
+		
+		    supprimeruser.setVisible(false);
 		    activeBtn();
 		    noVisibleBtn();
 		    no_gmailBtn.setVisible(true);
@@ -579,12 +597,72 @@ public class SampleController {
 	}
 
 	@FXML
-	protected void stopGesture() {
+	protected void supprimeruser() {
 
-		cot.stop();
-		faceDetect.start();
-		gesture.setVisible(true);
-		gestureStop.setVisible(false);
+		if (user.get(1).isEmpty() || user.get(2).isEmpty() ) {
+
+			new Thread(() -> {
+
+				try {
+					warning.setVisible(true);
+
+					Thread.sleep(2000);
+
+					warning.setVisible(false);
+
+				} catch (InterruptedException ex) {
+				}
+
+			  }).start();
+
+		 } else {
+		new Thread(() -> {
+
+			try {
+
+				//faceDetect.setFname(fname.getText());
+
+
+				
+
+				database.userDelete(user.get(1) , user.get(2));
+				File f= new File("C:\\Users\\asmae el arrassi\\ensahVision2\\faces\\"+user.get(0)+"-"+user.get(1)+"_"+user.get(2)+"_15.jpg");           //file to be delete  
+				f.delete();
+				System.out.println(f.delete());
+				javafx.application.Platform.runLater(new Runnable(){
+					
+					@Override
+					 public void run() {
+						pb.setProgress(100);
+					 }
+					 });
+				savedLabel.setVisible(true);
+				Thread.sleep(2000);
+				
+				javafx.application.Platform.runLater(new Runnable(){
+					
+					@Override
+					 public void run() {
+						pb.setVisible(false);
+					 }
+					 });
+				
+				
+				javafx.application.Platform.runLater(new Runnable(){
+					
+					@Override
+					 public void run() {
+				 savedLabel.setVisible(false);
+					 }
+					 });
+
+			} catch (InterruptedException ex) {
+			}
+
+		}).start();}
+
+
+
 
 	}
 
@@ -599,6 +677,7 @@ public class SampleController {
 	}
 	@FXML
 	protected void onExitFace() {
+		supprimeruser.setVisible(false);
 		no_faceBtn.setVisible(false);
 		facebookBtn.setVisible(true);
 		frame.setVisible(true);
@@ -606,6 +685,7 @@ public class SampleController {
 	}
 	@FXML
 	protected void onExitGit() {
+		supprimeruser.setVisible(false);
 		 no_gitBtn.setVisible(false);
 		  gitBtn.setVisible(true);
 		  frame.setVisible(true);
@@ -614,6 +694,7 @@ public class SampleController {
 	}
 	@FXML
 	protected void onExitGoogle() {
+	  supprimeruser.setVisible(false);
       no_googleBtn.setVisible(false);
 	  googleBtn.setVisible(true);
 	  frame.setVisible(true);
@@ -622,6 +703,7 @@ public class SampleController {
 	@FXML
 	protected void onExitGmail() {
 
+		 supprimeruser.setVisible(false);
 		 no_gmailBtn.setVisible(false);
 		  gmailBtn.setVisible(true);
 		  frame.setVisible(true);
@@ -629,6 +711,7 @@ public class SampleController {
 	}
 	@FXML
 	protected void onExitTwitter() {
+		 supprimeruser.setVisible(false);
 		 no_twitterBtn.setVisible(false);
 		  twitterBtn.setVisible(true);
 		  frame.setVisible(true);
@@ -638,6 +721,7 @@ public class SampleController {
 
 	@FXML
 	protected void onExitInsta() {
+		 supprimeruser.setVisible(false);
 		 no_instaBtn.setVisible(false);
 		  instaBtn.setVisible(true);
 		  frame.setVisible(true);

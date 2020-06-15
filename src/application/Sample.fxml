@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,22 +10,21 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.web.WebView?>
 
-<BorderPane prefHeight="873.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane prefHeight="873.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
-      <TitledPane alignment="CENTER" collapsible="false" ellipsisString="" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0" prefWidth="782.0" text="EnsahVision" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER">
+      <TitledPane alignment="CENTER" collapsible="false" ellipsisString="" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0" prefWidth="782.0" style="-fx-background-color: #71B8D7;" text="EnsahVision" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="630.0" prefWidth="771.0">
                <children>
@@ -35,12 +33,21 @@
                      <viewport>
                         <Rectangle2D width="700.0" />
                      </viewport></ImageView>
-                  <Button fx:id="startCam" layoutX="3.0" layoutY="595.0" mnemonicParsing="false" onAction="#startCamera" prefHeight="60.0" prefWidth="90.0" styleClass="aaa" stylesheets="@application.css" />
-                  <Button id="savef" fx:id="saveBtn" disable="true" layoutX="100.0" layoutY="595.0" minWidth="89.0" mnemonicParsing="false" onAction="#saveFace" prefHeight="60.0" prefWidth="89.0" stylesheets="@application.css" />
+                  <Button fx:id="startCam" layoutX="3.0" layoutY="595.0" mnemonicParsing="false" onAction="#startCamera" prefHeight="60.0" prefWidth="90.0" styleClass="aaa" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="démarrer la caméra" />
+                     </tooltip></Button>
+                  <Button id="savef" fx:id="saveBtn" disable="true" layoutX="100.0" layoutY="595.0" minWidth="89.0" mnemonicParsing="false" onAction="#saveFace" prefHeight="60.0" prefWidth="89.0" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="prendre photo" />
+                     </tooltip></Button>
                   <Button fx:id="recogniseBtn" disable="true" layoutX="296.0" layoutY="596.0" minWidth="82.0" mnemonicParsing="false" onAction="#faceRecognise" prefHeight="60.0" prefWidth="95.0" style="-fx-background-color:gold;" styleClass="recog" stylesheets="@application.css">
                      <font>
                         <Font size="10.0" />
-                     </font></Button>
+                     </font>
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="detection de personne " />
+                     </tooltip></Button>
                   <Button fx:id="stopBtn" layoutX="3.0" layoutY="595.0" minHeight="57.0" mnemonicParsing="false" onAction="#stopCam" prefHeight="60.0" prefWidth="90.0" styleClass="stop1" stylesheets="@application.css" visible="false" />
                   <Label fx:id="savedLabel" layoutX="282.0" layoutY="207.0" prefHeight="52.0" prefWidth="215.0" text=" Face  Saved !" underline="true" visible="false">
                      <font>
@@ -64,8 +71,14 @@
                   <Button fx:id="stopRecBtn" disable="true" layoutX="399.0" layoutY="595.0" minWidth="87.0" mnemonicParsing="false" onAction="#stopRecognise" prefHeight="60.0" prefWidth="87.0" styleClass="stop2" stylesheets="@application.css" text="STOP" textFill="#fa1111">
                      <font>
                         <Font name="Gabriola" size="18.0" />
-                     </font></Button>
-                  <Button fx:id="ocrBtn" disable="true" layoutX="692.0" layoutY="595.0" minWidth="85.0" mnemonicParsing="false" onAction="#ocrStart" prefHeight="60.0" prefWidth="85.0" styleClass="ocr" stylesheets="@application.css" />
+                     </font>
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="arrêter la détection " />
+                     </tooltip></Button>
+                  <Button fx:id="ocrBtn" disable="true" layoutX="692.0" layoutY="595.0" minWidth="85.0" mnemonicParsing="false" onAction="#ocrStart" prefHeight="60.0" prefWidth="85.0" styleClass="ocr" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Imprimer photo" />
+                     </tooltip></Button>
                   <Button fx:id="motionBtn" disable="true" layoutX="199.0" layoutY="595.0" mnemonicParsing="false" onAction="#startMotion" prefHeight="60.0" prefWidth="90.0" styleClass="motion" stylesheets="@application.css">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
@@ -84,38 +97,70 @@
                            </stops>
                         </LinearGradient>
                      </textFill>
+                     <tooltip>
+                        <Tooltip style="-fx-backgroun-color: #000080;" text="Détecter action " />
+                     </tooltip>
                   </Button>
-                  <Button fx:id="gesture" disable="true" layoutX="692.0" layoutY="3.0" minWidth="84.0" mnemonicParsing="false" onAction="#startGesture" prefHeight="61.0" prefWidth="92.0" style="-fx-background-color: cyan;" styleClass="gesture" stylesheets="@application.css" textFill="#9a11e4">
+                    <Button fx:id="exit1" disable="true" layoutX="691.0" layoutY="10.0" mnemonicParsing="false" onAction="#exitfenetre" prefHeight="61.0" prefWidth="86.0" style="-fx-background-color: white;" styleClass="exit1" stylesheets="@application.css" textFill="#9a11e4">                     <font>
+                        <Font name="Century" size="10.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Exit fenêtre" />
+                     </tooltip>
+                  </Button>
+                    <Button fx:id="supprimeruser" layoutX="694.0" mnemonicParsing="false" onAction="#supprimeruser" prefHeight="61.0" prefWidth="86.0" styleClass="supprimeruser" textFill="#9a11e4" visible="false">
                      <font>
                         <Font name="Century" size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gestureStop" layoutX="621.0" layoutY="3.0" mnemonicParsing="false" onAction="#stopGesture" prefHeight="61.0" prefWidth="146.0" text="Stop Gesture" textFill="#9a11e4" visible="false">
-                     <font>
-                        <Font name="Century" size="10.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="eyeBtn" disable="true" layoutX="497.0" layoutY="595.0" minWidth="84.0" mnemonicParsing="false" onAction="#startEyeDetect" prefHeight="60.0" prefWidth="84.0" styleClass="eye" stylesheets="@application.css" />
-                  <Button fx:id="shapeBtn" disable="true" layoutX="593.0" layoutY="596.0" mnemonicParsing="false" onAction="#shapeStart" prefHeight="60.0" prefWidth="92.0" styleClass="sqr" stylesheets="@application.css" />
+                  <Button fx:id="eyeBtn" disable="true" layoutX="497.0" layoutY="595.0" minWidth="84.0" mnemonicParsing="false" onAction="#startEyeDetect" prefHeight="60.0" prefWidth="84.0" styleClass="eye" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Détecter les yeux" />
+                     </tooltip></Button>
+                  <Button fx:id="shapeBtn" disable="true" layoutX="593.0" layoutY="596.0" mnemonicParsing="false" onAction="#shapeStart" prefHeight="60.0" prefWidth="92.0" styleClass="sqr" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Détecter objet" />
+                     </tooltip></Button>
                   <Button fx:id="gitBtn" disable="true" layoutX="692.0" layoutY="294.0" minWidth="76.0" mnemonicParsing="false" onAction="#gitStart" prefHeight="68.0" prefWidth="90.0" styleClass="git" stylesheets="@application.css">
                      <font>
                         <Font size="10.0" />
                      </font>
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Github" />
+                     </tooltip>
                   </Button>
-                  <Button fx:id="gmailBtn" disable="true" layoutX="691.0" layoutY="373.0" mnemonicParsing="false" onAction="#gmailStart" prefHeight="65.0" prefWidth="90.0" styleClass="gmail" stylesheets="@application.css" />
+                  <Button fx:id="gmailBtn" disable="true" layoutX="691.0" layoutY="373.0" mnemonicParsing="false" onAction="#gmailStart" prefHeight="65.0" prefWidth="90.0" styleClass="gmail" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Gmail" />
+                     </tooltip></Button>
                   <Button fx:id="capBtn" disable="true" layoutX="693.0" layoutY="524.0" minHeight="47.0" minWidth="76.0" mnemonicParsing="false" onAction="#capture" prefHeight="61.0" prefWidth="90.0" styleClass="capture" stylesheets="@application.css">
                      <font>
                         <Font size="10.0" />
                      </font>
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Capture!" />
+                     </tooltip>
                   </Button>
                   <Button fx:id="facebookBtn" disable="true" layoutX="691.0" layoutY="447.0" minWidth="78.0" mnemonicParsing="false" onAction="#facebookStart" prefHeight="69.0" prefWidth="90.0" styleClass="facebook" stylesheets="@application.css">
                      <font>
                         <Font size="11.0" />
                      </font>
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Facebook" />
+                     </tooltip>
                   </Button>
-                  <Button fx:id="instaBtn" disable="true" layoutX="693.0" layoutY="218.0" mnemonicParsing="false" onAction="#onInsta" prefHeight="70.0" prefWidth="90.0" styleClass="insta" stylesheets="@application.css" />
-                  <Button fx:id="twitterBtn" disable="true" layoutX="693.0" layoutY="147.0" mnemonicParsing="false" onAction="#onTwitter" prefHeight="65.0" prefWidth="92.0" styleClass="twitter" stylesheets="@application.css" />
-                  <Button fx:id="googleBtn" disable="true" layoutX="693.0" layoutY="75.0" mnemonicParsing="false" onAction="#onGoogle" prefHeight="61.0" prefWidth="90.0" styleClass="google" stylesheets="@application.css" />
+                  <Button fx:id="instaBtn" disable="true" layoutX="693.0" layoutY="218.0" mnemonicParsing="false" onAction="#onInsta" prefHeight="70.0" prefWidth="90.0" styleClass="insta" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Instagram" />
+                     </tooltip></Button>
+                  <Button fx:id="twitterBtn" disable="true" layoutX="693.0" layoutY="147.0" mnemonicParsing="false" onAction="#onTwitter" prefHeight="65.0" prefWidth="92.0" styleClass="twitter" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Twitter" />
+                     </tooltip></Button>
+                  <Button fx:id="googleBtn" disable="true" layoutX="693.0" layoutY="75.0" mnemonicParsing="false" onAction="#onGoogle" prefHeight="61.0" prefWidth="90.0" styleClass="google" stylesheets="@application.css">
+                     <tooltip>
+                        <Tooltip style="-fx-background-color: #000080;" text="Google chrome" />
+                     </tooltip></Button>
                   <Button fx:id="no_googleBtn" layoutX="695.0" layoutY="76.0" mnemonicParsing="false" onAction="#onExitGoogle" prefHeight="53.0" prefWidth="84.0" styleClass="no" stylesheets="@application.css" visible="false" />
                   <Button fx:id="no_twitterBtn" layoutX="695.0" layoutY="145.0" mnemonicParsing="false" onAction="#onExitTwitter" prefHeight="61.0" prefWidth="83.0" styleClass="no" stylesheets="@application.css" visible="false" />
                   <Button fx:id="no_instaBtn" layoutX="698.0" layoutY="229.0" mnemonicParsing="false" onAction="#onExitInsta" prefHeight="61.0" prefWidth="87.0" styleClass="no" stylesheets="@application.css" visible="false" />
@@ -142,13 +187,13 @@
       </TitledPane>
    </center>
    <left>
-      <TitledPane fx:id="dataPane" disable="true" prefHeight="705.0" prefWidth="302.0" text="Données personelles" BorderPane.alignment="CENTER">
+      <TitledPane fx:id="dataPane" disable="true" prefHeight="705.0" prefWidth="302.0" text="Données personelles" textFill="#da2d95" BorderPane.alignment="CENTER">
          <content>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="532.0" prefWidth="300.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <ListView fx:id="output" editable="true" layoutX="4.0" layoutY="4.0" prefHeight="313.0" prefWidth="290.0" style="-fx-padding: 10;">
+                        <ListView fx:id="output" editable="true" layoutX="5.0" layoutY="1.0" prefHeight="338.0" prefWidth="296.0" style="-fx-padding: 10;">
                            <effect>
                               <Glow />
                            </effect>
@@ -214,15 +259,15 @@
          </content></TitledPane>
    </left>
    <right>
-      <TitledPane animated="false" prefHeight="707.0" prefWidth="266.0" text="Informations " BorderPane.alignment="CENTER">
+      <TitledPane animated="false" prefHeight="707.0" prefWidth="266.0" style="-fx-background-color: #1E90FF;" text="Informations " textFill="#da2d95" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="490.0" prefWidth="264.0">
                <children>
                   <SplitPane layoutX="2.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="496.0" prefWidth="280.0">
                     <items>
-                        <ScrollPane prefHeight="494.0" prefViewportHeight="244.0" prefViewportWidth="328.0" prefWidth="260.0">
+                        <ScrollPane prefHeight="602.0" prefViewportHeight="244.0" prefViewportWidth="328.0" prefWidth="278.0">
                            <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="496.0" prefWidth="310.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="680.0" prefWidth="310.0">
                                  <children>
                                     <Label layoutX="68.0" layoutY="7.0" text="EVENT LOG:">
                                        <font>
