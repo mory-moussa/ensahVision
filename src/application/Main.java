@@ -13,13 +13,6 @@ import javafx.fxml.FXMLLoader;
 // Think twice but code once.
 // Happy Coding  :)
 
-/********************************************************
-*	    e x o V i s i x | The GhostEye		*
-*		   Anup Kumar Sarkar			*
-*	       me.anup.sarkar@gmail.com			*
-*	        fb.com/i.am.anup.aronno			*
-*							*
-*********************************************************/
 
 //Feel Free to communicate
 
@@ -33,7 +26,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,1350,720);
 	
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());			
-			primaryStage.getIcons().add(new Image("logo.png"));
+			primaryStage.getIcons().add(new Image("logo.jpg"));
 	        primaryStage.setTitle("E n s a h V i s i o n | Smart & Intelligent Computer Vision Solution ");
 			
 			primaryStage.setScene(scene);

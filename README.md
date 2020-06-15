@@ -1,22 +1,22 @@
-# e x o V i s i x
+# E n s a h V i s i o n
 <p align="center">
- <img src="./logo.png" alt="Logo" style="width: 220px;"/></div>
+ <img src="./logo.jpg" alt="Logo" style="width: 220px;"/></div>
 </p>
 
-ExoVisix is a Smart Computer Vision Application with various functionalities. I have tried to put as many Machine Learning tools as possible into one single Application for greater productivity.
+EnsahVision est une application de vision par ordinateur intelligente dotée de diverses fonctionnalités. On a  essayé de mettre autant d'outils de Machine Learning que possible dans une seule application pour une plus grande productivité.
 
-## KEY FEATURES
-* Auto Attendance system Using Real Time Face Recognition
-* Face Trainer
-* Motion Detection
-* OCR (Optical Character Reader)
-* Gesture Control(Controlling Mouse Pointer Using Finger or Red Colored Object)
-* Rectangle Shape Detection
-* Trained Faces Image Gallery View
-* Eye Detection
-* Persistent Storage for Trained Faces Image Using Database
+## PRINCIPALES CARACTERISTIQUES
+* Système de présence automatique utilisant la reconnaissance faciale en temps réel
+* Entraîneur de visage
+* Détection de mouvement
+* OCR (lecteur optique de caractères)
+* L'accée aux réseaux sociaux aprés la reconnaissance
+* Détection de forme rectangulaire
+* Galerie d'images de visages formés
+* Détection des yeux
+* Stockage persistant pour l'image de visages formés à l'aide de la base de données
 
-## TECHNOLOGY USED
+## TECHNOLOGIES UTILISÉES
 * Core Java
 * JavaCV (wrapper of Opencv )
 * JavaFX
@@ -24,7 +24,7 @@ ExoVisix is a Smart Computer Vision Application with various functionalities. I 
 * Maven
 * Tesseract OCR Framework
 ## USER INTERFACE
-<img src="./src/appLayout.png" alt="ExoVisix UI" style="width: 700px;"/>
+<img src="./src/acceuil.png" alt="EnsahVision UI" style="width: 700px;"/>
 
 # Installation Guide
 
@@ -36,7 +36,7 @@ ExoVisix is a Smart Computer Vision Application with various functionalities. I 
 
 ### IDE
 ```bash
-I have developed this project using Eclipse Neon. So I highly recommend you to use this particular IDE.
+  On a développé ce projet en utilisant Eclipse.Nous  vous recommandons donc fortement d'utiliser cet IDE particulier.
    ```
    
 ## Maven Dependencies
@@ -58,6 +58,23 @@ I have developed this project using Eclipse Neon. So I highly recommend you to u
             <artifactId>tesseract-platform</artifactId>
             <version>3.04.01-1.3</version>
       </dependency>
+      <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>opencv</artifactId>
+            <version>3.2.0-1.3</version>
+      </dependency>
+    <!-- https://mvnrepository.com/artifact/de.jensd/fontawesomefx -->
+      <dependency>
+          <groupId>de.jensd</groupId>
+          <artifactId>fontawesomefx</artifactId>
+          <version>8.9</version>
+      </dependency>
+    <!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
+      <dependency>
+          <groupId>com.jfoenix</groupId>
+          <artifactId>jfoenix</artifactId>
+          <version>9.0.1</version>
+      </dependency>
 
   ```
   
@@ -74,7 +91,7 @@ To properly run this Application on your System, At first you need to download a
    * **JavaCV**  https://github.com/bytedeco/javacv
    
  * An implementation of **MySQL Database**: 
-   * **XAMPP**  https://www.apachefriends.org/download.html
+   * **WAMPSERVER**  https://www.wampserver.com/
  
  * To Connect MySQL with Java, You will need a connector: (Follow the installation instruction)
    * **MySQL Connector Java**  https://dev.mysql.com/downloads/connector/j/5.1.html
@@ -85,11 +102,12 @@ To properly run this Application on your System, At first you need to download a
 
 Finally, please make sure everything has the same bitness: **32-bit and 64-bit modules do not mix under any circumstances**.
 
-# Configuration Settings 
-#### ExoVision may not work properly Without these settings
-#### Before executing the App, you have to make some change to below mentioned files...
 
-## Database Settings 
+# Paramètres de configuration
+#### EnsahVision peut ne pas fonctionner correctement sans ces paramètres
+#### Avant d'exécuter l'application, vous devez apporter des modifications aux fichiers mentionnés ci-dessous ...
+
+## Paramètres de la base de données 
 * Open MySQL on XAMPP then Create a New Database & name it **ghostEye** 
 * Now import attached **face_bio.sql** to the  **ghostEye** Database
 * Or Create a New Schema(Table)
@@ -139,19 +157,19 @@ class Database {
 	.
 	.
 ```
-## OCR Settings
-* To use tesseract api,at first you have to install tesseract with desired language training data on your system.After That you have to mention the installation folder.
+##Paramètres OCR
+* Pour utiliser l'api tesseract, vous devez d'abord installer tesseract avec les données de formation linguistique souhaitées sur votre système, après quoi vous devez mentionner le dossier d'installation.
 
 ```java
 Now goto src/application/OCR.java ,in line 36 provide your tesseract installation directory name.
 ```
 
 # Tips
-* When you going to train a new face try to capture at least 10 pictures of a single person in different angle.keep it in mind that the more number of training image in different angle and posture, the more accurate will be  face recognition.
-* After everything done ,kindly empty the **faces** folder.There is a test_face image.You have to delete it.
+* Lorsque vous allez former un nouveau visage, essayez de capturer au moins 10 photos d'une seule personne sous un angle différent.Gardez à l'esprit que plus il y a d'images d'entraînement sous différents angles et postures, plus la reconnaissance du visage sera précise.
+* Après tout, videz gentiment le dossier ** faces **. Il y a une image test_face. Vous devez la supprimer.
 
-# Please Note:
-Please Keep it in mind ,sometimes the face recognition algorithm provides wrong output if a person is not trained or unknown to the system.The reason behind this is that the face recognition algorithm guess the face with the nearest match.when it does not find any match ,the system pick any face with a nearest match.this is  why it sometimes provides wrong output.
+#  Note:
+Veuillez garder cela à l'esprit, parfois l'algorithme de reconnaissance faciale fournit une sortie erronée si une personne n'est pas formée ou inconnue du système.La raison derrière cela est que l'algorithme de reconnaissance faciale devine le visage avec la correspondance la plus proche. match, le système sélectionne n'importe quel visage avec un match le plus proche.C'est pourquoi il fournit parfois une sortie incorrecte.
 
 # LICENCE
 
@@ -159,25 +177,25 @@ Please Keep it in mind ,sometimes the face recognition algorithm provides wrong 
 
 MIT License
 
-Copyright (c) 2017 Anup Kumar Sarkar
+Copyright (c) 2020 mory, asmae, manal
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+La permission est accordée, gratuitement, à toute personne obtenant une copie
+de ce logiciel et des fichiers de documentation associés (le "Logiciel"), pour traiter
+dans le Logiciel sans restriction, y compris sans limitation les droits
+utiliser, copier, modifier, fusionner, publier, distribuer, sous-licencier et / ou vendre
+des copies du logiciel et pour permettre aux personnes à qui le logiciel est
+fourni à cet effet, sous réserve des conditions suivantes:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+L'avis de droit d'auteur ci-dessus et cet avis d'autorisation doivent être inclus dans tous les
+copies ou parties substantielles du Logiciel.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+LE LOGICIEL EST FOURNI "TEL QUEL", SANS GARANTIE D'AUCUNE SORTE, EXPRESSE OU
+IMPLICITE, Y COMPRIS, MAIS SANS S'Y LIMITER, LES GARANTIES DE QUALITÉ MARCHANDE,
+ADAPTATION À UN USAGE PARTICULIER ET NON-CONTREFAÇON. EN AUCUN CAS, LE
+LES AUTEURS OU LES DÉTENTEURS DE DROITS D'AUTEUR SONT RESPONSABLES DE TOUTES RÉCLAMATIONS, DOMMAGES OU AUTRES
+RESPONSABILITÉ, QUE CE SOIT DANS UNE ACTION DE CONTRAT, TORT OU AUTRE, DÉCOULANT DE,
+HORS OU EN LIEN AVEC LE LOGICIEL OU L'UTILISATION OU AUTRES OPÉRATIONS DANS LE
+LOGICIEL.
 
 ```
 
