@@ -15,7 +15,7 @@ class Database {
 
 	public final String Database_name = "ghosteye";
 	public final String Database_user = "root";
-	public final String Database_pass = "";
+	public final String Database_pass = "root";
 
 	public Connection con;
 

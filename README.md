@@ -23,8 +23,10 @@ EnsahVision est une application de vision par ordinateur intelligente dotée de 
 * MySQL
 * Maven
 * Tesseract OCR Framework
+
+
 ## USER INTERFACE
-<img src="./src/acceuil.png" alt="EnsahVision UI" style="width: 700px;"/>
+<img src="./src/acceuil.png" alt="EnsahVision UI" style="width: 650px; height: 400;"/>
 
 # Installation Guide
 
