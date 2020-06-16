@@ -26,7 +26,7 @@ EnsahVision est une application de vision par ordinateur intelligente dotée de 
 
 
 ## USER INTERFACE
-<img src="./src/sc.png" alt="EnsahVision UI" style="width: 650px; height: 400;"/>
+<img src="./src/sc.png" />
 
 # Installation Guide
 
