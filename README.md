@@ -1,6 +1,6 @@
 # E n s a h V i s i o n
 <p align="center">
- <img src="./logo.jpg" alt="Logo" style="width: 220px;"/></div>
+ <img src="./logo.jpg" alt="Logo" style="width: 150px; height: 150"/></div>
 </p>
 
 EnsahVision est une application de vision par ordinateur intelligente dotée de diverses fonctionnalités. On a  essayé de mettre autant d'outils de Machine Learning que possible dans une seule application pour une plus grande productivité.
@@ -26,7 +26,7 @@ EnsahVision est une application de vision par ordinateur intelligente dotée de 
 
 
 ## USER INTERFACE
-<img src="./src/sc.png" />
+<img src="./src/sc.PNG" />
 
 # Installation Guide
 
