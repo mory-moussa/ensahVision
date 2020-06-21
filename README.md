@@ -34,7 +34,7 @@ EnsahVision est une application de vision par ordinateur intelligente dotée de 
 ### Video Guide
 
 
-[![IMAGE ALT TEXT](./src/sc.PNG)](https://www.youtube.com/embed/Wzwc4RUJs1Y "Video Title")
+[![IMAGE ALT TEXT](./src/sc.PNG)](https://youtu.be/aACjL2Qa69U "Video Title")
 
 ### IDE
 ```bash
