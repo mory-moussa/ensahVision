@@ -1,27 +1,23 @@
 package application;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Separator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+
 
 import java.awt.FontFormatException;
 import java.io.File;
@@ -31,12 +27,11 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import javax.swing.text.View;
+
 
 import application.FaceDetector;
 import application.Database;
 import application.OCR;
-import application.Database;
 
 public class SampleController {
 
@@ -50,6 +45,10 @@ public class SampleController {
 	
 	@FXML
 	private Button startCam;
+	@FXML
+	private Button btnId;
+	@FXML
+	private Button savedBtn;
 	@FXML
 	private Button stopBtn;
 	@FXML
@@ -134,7 +133,13 @@ public class SampleController {
 //	public TilePane tile;
 	@FXML
 	public TextFlow ocr;
+    @FXML
+	static
+     ImageView imageID=new ImageView();
+
+
 //**********************************************************************************************
+	
 	FaceDetector faceDetect = new FaceDetector();	//Creating Face detector object									
 	ColoredObjectTracker cot = new ColoredObjectTracker(); //Creating Color Object Tracker object		
 	Database database = new Database();		//Creating Database object
@@ -148,6 +153,7 @@ public class SampleController {
 
 	public boolean enabled = false;
 	public boolean isDBready = false;
+
 
 	
 	//**********************************************************************************************
@@ -170,8 +176,12 @@ public class SampleController {
 		//initializing objects from start camera button event
 		faceDetect.init();
         frame.setVisible(true);
+        imageID.setVisible(true);
 		faceDetect.setFrame(frame);
+		faceDetect.setImageId(imageID);
 		supprimeruser.setVisible(false);
+		btnId.setDisable(true);
+		savedBtn.setDisable(true);
 		faceDetect.start();
 
 		if (!database.init()) {
@@ -241,6 +251,10 @@ public class SampleController {
 		if (count > 0 && !user.isEmpty()) {
 			supprimeruser.setVisible(true);
             recogniseBtn.setDisable(true);
+            faceDetect.setImageId(imageID);
+            faceDetect.setShowId(true);
+            imageID.setVisible(true);
+            
 			//Retrieved data will be shown in Fetched Data pane
 			System.out.println("ça marche pas");
 			String t = "********* Face Data: " + user.get(1) + " " + user.get(2) + " *********";
@@ -281,7 +295,8 @@ public class SampleController {
 			outEvent.add(s);
 
 			output.setItems(outEvent);
-
+			
+	        
 		}
 
 		count++;
@@ -665,6 +680,76 @@ public class SampleController {
 
 
 	}
+	@FXML
+	protected void IdStart() {
+
+
+		// printOutput(faceDetect.getOutput());
+
+		//recogniseBtn.setText("Voir les données");
+
+		//Getting detected faces    
+     
+            savedBtn.setVisible(true);
+			
+	       
+
+	}
+	
+	@FXML
+	protected void saveId() throws SQLException {
+
+		supprimeruser.setVisible(false);
+		//Input Validation
+		
+			//Progressbar
+			pb.setVisible(true);
+
+			savedLabel.setVisible(true);
+	        
+
+			new Thread(() -> {
+
+				try {
+
+					
+					
+					javafx.application.Platform.runLater(new Runnable(){
+						
+						@Override
+						 public void run() {
+							pb.setProgress(100);
+						 }
+						 });
+					savedLabel.setVisible(true);
+					Thread.sleep(2000);
+					
+					javafx.application.Platform.runLater(new Runnable(){
+						
+						@Override
+						 public void run() {
+							pb.setVisible(false);
+						 }
+						 });
+					
+					
+					javafx.application.Platform.runLater(new Runnable(){
+						
+						@Override
+						 public void run() {
+					       savedLabel.setVisible(false);
+						 }
+						 });
+					
+
+				} catch (InterruptedException ex) {
+				}
+
+			}).start();
+			
+			faceDetect.setSaveId(true);
+		}
+	
 
 	@FXML
 	protected void shapeStart() {

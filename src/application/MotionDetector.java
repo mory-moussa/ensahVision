@@ -3,6 +3,8 @@ package application;
 
 import org.bytedeco.javacpp.*;
 import org.bytedeco.javacpp.opencv_core.IplImage;
+import org.bytedeco.javacpp.helper.opencv_core.AbstractCvMemStorage;
+import org.bytedeco.javacpp.helper.opencv_core.AbstractIplImage;
 import org.bytedeco.javacv.*;
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
@@ -26,24 +28,24 @@ public class MotionDetector {
         CanvasFrame canvasFrame = new CanvasFrame("Motion Detector");
         canvasFrame.setCanvasSize(frame.width(), frame.height());
 
-        CvMemStorage storage = CvMemStorage.create();
+        CvMemStorage storage = AbstractCvMemStorage.create();
 
         while (canvasFrame.isVisible() && (frame != null)) {
             cvClearMemStorage(storage);
 
             cvSmooth(frame, frame, CV_GAUSSIAN, 9, 9, 2, 2);
             if (image == null) {
-                image = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+                image = AbstractIplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
                 cvCvtColor(frame, image, CV_RGB2GRAY);
             } else {
-                prevImage = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+                prevImage = AbstractIplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
                 prevImage = image;
-                image = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+                image = AbstractIplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
                 cvCvtColor(frame, image, CV_RGB2GRAY);
             }
 
             if (diff == null) {
-                diff = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+                diff = AbstractIplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
             }
 
             if (prevImage != null) {
@@ -72,7 +74,7 @@ public class MotionDetector {
 
         				String name = "Motion Detected !";
         				
-        				g2.drawString(name, (int) (50), (50));
+        				g2.drawString(name, (50), (50));
                         
                            // test intersection
                         if (box != null) {

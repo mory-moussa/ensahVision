@@ -21,7 +21,6 @@ import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgcodecs.CV_LOAD_IMAGE_GRAYSCALE;
 
 import org.bytedeco.javacpp.IntPointer;
-import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.DoublePointer;
 
 public class FaceRecognizer {
@@ -39,6 +38,7 @@ public class FaceRecognizer {
 		root = new File(trainingDir);
 
 		FilenameFilter imgFilter = new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String name) {
 				name = name.toLowerCase();
 				return name.endsWith(".jpg") || name.endsWith(".pgm") || name.endsWith(".png");

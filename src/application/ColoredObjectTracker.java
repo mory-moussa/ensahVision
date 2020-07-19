@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 import org.bytedeco.javacpp.opencv_core.CvScalar;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.opencv_imgproc.CvMoments;
+import org.bytedeco.javacpp.helper.opencv_core.AbstractIplImage;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameConverter;
 
 import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgcodecs.*;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ColoredObjectTracker implements Runnable {
@@ -51,6 +51,7 @@ public class ColoredObjectTracker implements Runnable {
 		path.setContentPane(jp);
 	}
 
+	@Override
 	public void run() {
 		try {
 			grabber = FrameGrabber.createDefault(CAMERA_NUM);
@@ -124,8 +125,8 @@ public class ColoredObjectTracker implements Runnable {
 		Java2DFrameConverter converter1 = new Java2DFrameConverter();
 		OpenCVFrameConverter.ToIplImage converter2 = new OpenCVFrameConverter.ToIplImage();
 		IplImage iploriginal = converter2.convert(converter1.convert(bufferedimg));
-		IplImage srcimg = IplImage.create(iploriginal.width(), iploriginal.height(), IPL_DEPTH_8U, 1);
-		IplImage destimg = IplImage.create(iploriginal.width(), iploriginal.height(), IPL_DEPTH_8U, 1);
+		IplImage srcimg = AbstractIplImage.create(iploriginal.width(), iploriginal.height(), IPL_DEPTH_8U, 1);
+		IplImage destimg = AbstractIplImage.create(iploriginal.width(), iploriginal.height(), IPL_DEPTH_8U, 1);
 		cvCvtColor(iploriginal, srcimg, CV_BGR2GRAY);
 		cvEqualizeHist(srcimg, destimg);
 		return destimg;

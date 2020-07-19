@@ -11,18 +11,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.SQLException;
-import java.time.Instant;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
-import org.bytedeco.javacpp.FlyCapture2.ImageMetadata;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_objdetect;
-import org.bytedeco.javacpp.helper.opencv_core;
-import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacv.CanvasFrame;
+import org.bytedeco.javacpp.helper.opencv_core.AbstractCvMemStorage;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.Java2DFrameConverter;
@@ -33,30 +27,35 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 import static org.bytedeco.javacpp.opencv_imgcodecs.*;
 import static org.bytedeco.javacpp.opencv_objdetect.*;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart.Data;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import application.Database;
 import application.MotionDetector;
-import application.ColoredObjectTracker;
-import application.SquareDetector;
+
+
 
 public class FaceDetector implements Runnable {
+	
+	static int compteur=1;
 
 	Database database = new Database();
 	ArrayList<String> user;
 
 	FaceRecognizer faceRecognizer = new FaceRecognizer();
+
 	MotionDetector motionDetector = new MotionDetector();
 	OpenCVFrameConverter.ToIplImage grabberConverter = new OpenCVFrameConverter.ToIplImage();
 	Java2DFrameConverter paintConverter = new Java2DFrameConverter();
 	ArrayList<String> output = new ArrayList<String>();
+	File file = new File("C:/Users/asmae el arrassi/JEE-workspace/ensahVision/ID/789.jpg");
+	Image image1 = new Image(file.toURI().toString());
 
 	@FXML
 	public Label ll;
@@ -65,6 +64,7 @@ public class FaceDetector implements Runnable {
 	private int count = 0;
 	public String classiferName;
 	public File classifierFile;
+	String path=new File("").getAbsolutePath();
 	
 	
 	public boolean saveFace = false;
@@ -74,6 +74,9 @@ public class FaceDetector implements Runnable {
 	public boolean isMotion = false;
 	public boolean isEyeDetection = false;
 	public boolean isSmile = false;
+	public boolean isID = false;
+	public boolean showId = false;
+	public boolean saveId = false;
 	/*public boolean isUpperBody = false;
 	public boolean isFullBody = false;*/
 	private boolean stop = false;
@@ -92,6 +95,8 @@ public class FaceDetector implements Runnable {
 	private IplImage grabbedImage = null, temp, temp2, grayImage = null, smallImage = null;
 	public ImageView frames2;
 	public ImageView frames;
+    private ImageView imageId=new ImageView();
+    private BufferedImage image2;
 	
 	
 	private CvSeq faces = null;
@@ -104,6 +109,7 @@ public class FaceDetector implements Runnable {
 	
 
 	int recogniseCode;
+	int recogniseId;
 	public int code;
 	public int reg;
 	public int age;
@@ -137,6 +143,7 @@ public class FaceDetector implements Runnable {
 		}
 	}
 
+	@Override
 	public void run() {
 		try {
 			try {
@@ -148,7 +155,7 @@ public class FaceDetector implements Runnable {
 
 				grabbedImage = grabberConverter.convert(grabber.grab());
 
-				storage = CvMemStorage.create();
+				storage = AbstractCvMemStorage.create();
 			} catch (Exception e) {
 				if (grabber != null)
 					grabber.release();
@@ -232,12 +239,16 @@ public class FaceDetector implements Runnable {
 								ImageIO.write(image, "PNG", os);
 								System.out.println("Capture!!");
 							} catch (IOException e) {
-								
 								e.printStackTrace();
 							}
 						}
 
 						isOcrMode = false;
+						if (isID) {
+							String fName = "ID/" + code+".jpg";
+							cvSaveImage(fName, temp);
+						}
+
 
 						if (faces.total() == 0) {
 							faces = cvHaarDetectObjects(smallImage, classifierSideFace, storage, 1.1, 3,
@@ -276,8 +287,37 @@ public class FaceDetector implements Runnable {
 										user = new ArrayList<String>();
 										user = database.getUser(this.recogniseCode);
 										this.output = user;
+										
 
 										names = user.get(1) + " " + user.get(2);
+										if (showId) {
+											try {
+												
+												 file = new File(path+"\\src\\"+recogniseCode+".jpg");
+												  image2 = ImageIO.read(file);
+												
+												  SampleController.imageID.setFitHeight(240);
+												SampleController.imageID.setFitWidth(251);
+												
+												//imageId.setImage(image2);
+												
+												WritableImage showFrame1 = SwingFXUtils.toFXImage(image2, null);
+												
+												SampleController.imageID.setImage(showFrame1);
+												SampleController.imageID.setVisible(true);
+												showId=false;
+												
+											} catch (Exception e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+												showId=false;
+												System.out.println("tu n'a pas une carte national disponible");
+											}
+											showId=false;
+
+										}
+										
+									
 									}
 								
 									//printing recognised person name into the frame
@@ -288,8 +328,7 @@ public class FaceDetector implements Runnable {
 
 								}
 
-								if (saveFace) { //saving captured face to the disk
-									//keep it in mind that face code should be unique to each person
+								if (saveFace) { 
 									String fName = "faces/" + code + "-" + fname + "_" + Lname + "_" + count + ".jpg";
 									cvSaveImage(fName, temp);
 									count++;
@@ -297,7 +336,17 @@ public class FaceDetector implements Runnable {
 								}
 
 							}
+							if (saveId) {
+								this.recogniseCode = faceRecognizer.recognize(temp);
+								System.out.println(this.recogniseCode);
+								String fName = "./" + this.recogniseCode +".jpg";
+								cvSaveImage(fName, grabbedImage);
+								compteur++;
+
+							}
+							
 							this.saveFace = false;
+							this.saveId = false;
 							faces = null;
 						}
 
@@ -305,9 +354,14 @@ public class FaceDetector implements Runnable {
 
 						javafx.application.Platform.runLater(new Runnable(){
 							
+							
+							WritableImage showFrame = SwingFXUtils.toFXImage(image, null);
+							
+							
 							@Override
 							 public void run() {
 							frames.setImage(showFrame);
+							
 							 }
 							 });
 
@@ -341,6 +395,14 @@ public class FaceDetector implements Runnable {
 
 			}
 		}
+	}
+
+	public ImageView getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(ImageView imageId) {
+		this.imageId = imageId;
 	}
 
 	public void stop() {
@@ -637,6 +699,32 @@ public class FaceDetector implements Runnable {
 	public void setIsRecFace(Boolean isRecFace) {
 		this.isRecFace = isRecFace;
 	}
+	public boolean isSaveId() {
+		return saveId;
+	}
+
+	public void setSaveId(boolean saveId) {
+		this.saveId = saveId;
+	}
+
+	public int getRecogniseId() {
+		return recogniseId;
+	}
+
+	public void setRecogniseId(int recogniseId) {
+		this.recogniseId = recogniseId;
+	}
+
+	public boolean isShowId() {
+		return showId;
+	}
+
+	public void setShowId(boolean showId) {
+		this.showId = showId;
+		
+	}
+	
+
 
 
 }

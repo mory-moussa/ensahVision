@@ -2,7 +2,6 @@ package application;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 class Database {
 	public int code;
@@ -15,7 +14,7 @@ class Database {
 
 	public final String Database_name = "ghosteye";
 	public final String Database_user = "root";
-	public final String Database_pass = "root";
+	public final String Database_pass = "";
 
 	public Connection con;
 

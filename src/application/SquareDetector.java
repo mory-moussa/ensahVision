@@ -1,7 +1,5 @@
 package application;
 
-import javax.swing.JFrame;
-
 import org.bytedeco.javacpp.*;
 import org.bytedeco.javacpp.opencv_core.CvContour;
 import org.bytedeco.javacpp.opencv_core.CvMemStorage;
@@ -10,6 +8,7 @@ import org.bytedeco.javacpp.opencv_core.CvSeq;
 import org.bytedeco.javacpp.opencv_core.CvSize;
 import org.bytedeco.javacpp.opencv_core.CvSlice;
 import org.bytedeco.javacpp.opencv_core.IplImage;
+import org.bytedeco.javacpp.helper.opencv_core.AbstractCvMemStorage;
 import org.bytedeco.javacv.*;
 
 import javafx.scene.image.ImageView;
@@ -249,7 +248,7 @@ public class SquareDetector {
 	public void loop() {
 		// canvass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		storage2 = CvMemStorage.create();
+		storage2 = AbstractCvMemStorage.create();
 
 		try {
 
