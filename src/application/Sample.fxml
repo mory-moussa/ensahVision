@@ -19,7 +19,6 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.web.WebView?>
 
 <BorderPane prefHeight="706.0" prefWidth="1351.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
@@ -37,11 +36,11 @@
                      <tooltip>
                         <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="démarrer la caméra" />
                      </tooltip></Button>
-                  <Button id="savef" fx:id="saveBtn" disable="true" layoutX="73.0" layoutY="595.0" minWidth="89.0" mnemonicParsing="false" onAction="#saveFace" prefHeight="60.0" prefWidth="89.0" stylesheets="@application.css">
+                  <Button id="savef" fx:id="saveBtn" disable="true" layoutX="93.0" layoutY="596.0" minWidth="89.0" mnemonicParsing="false" onAction="#saveFace" prefHeight="60.0" prefWidth="89.0" stylesheets="@application.css">
                      <tooltip>
                         <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="prendre photo" />
                      </tooltip></Button>
-                  <Button fx:id="recogniseBtn" disable="true" layoutX="225.0" layoutY="596.0" minWidth="82.0" mnemonicParsing="false" onAction="#faceRecognise" prefHeight="60.0" prefWidth="95.0" style="-fx-background-color:gold;" styleClass="recog" stylesheets="@application.css">
+                  <Button fx:id="recogniseBtn" disable="true" layoutX="360.0" layoutY="597.0" minWidth="82.0" mnemonicParsing="false" onAction="#faceRecognise" prefHeight="60.0" prefWidth="95.0" style="-fx-background-color:gold;" styleClass="recog" stylesheets="@application.css">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -68,28 +67,29 @@
                      </textFill>
                   </Label>
                   <ProgressIndicator fx:id="pb" layoutX="360.0" layoutY="156.0" progress="0.0" visible="false" />
-                  <Label fx:id="warning" layoutX="118.0" layoutY="463.0" prefHeight="38.0" prefWidth="482.0" style="-fx-background-color: #e53b24; -fx-background-radius: 14px;" text="Veuillez remplir toutes les données personnelles !" textFill="WHITE" underline="true" visible="false">
+                  <Label fx:id="warning" layoutX="22.0" layoutY="484.0" prefHeight="39.0" prefWidth="618.0" style="-fx-background-color: #e53b24; -fx-background-radius: 14px;" text="Veuillez remplir toutes les données personnelles et selectionner l'Id !" textFill="WHITE" underline="true" visible="false">
                      <font>
                         <Font name="Estrangelo Edessa" size="19.0" />
                      </font>
                   </Label>
-                  <Button fx:id="stopRecBtn" disable="true" layoutX="418.0" layoutY="595.0" minWidth="87.0" mnemonicParsing="false" onAction="#stopRecognise" prefHeight="60.0" prefWidth="87.0" styleClass="stop2" stylesheets="@application.css" text="STOP" textFill="#fa1111">
+                   <Label fx:id="warning1" layoutX="22.0" layoutY="477.0" prefHeight="46.0" prefWidth="626.0" style="-fx-background-color: #e53b24; -fx-background-radius: 14px;" text="les informations saisis et ceux sur votre carte national ne sont pas compatible  !" textFill="WHITE" underline="true" visible="false">
+                     <font>
+                        <Font name="Estrangelo Edessa" size="19.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="stopRecBtn" disable="true" layoutX="452.0" layoutY="597.0" minWidth="87.0" mnemonicParsing="false" onAction="#stopRecognise" prefHeight="60.0" prefWidth="87.0" styleClass="stop2" stylesheets="@application.css" text="STOP" textFill="#fa1111">
                      <font>
                         <Font name="Gabriola" size="18.0" />
                      </font>
                      <tooltip>
                         <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="arrêter la détection " />
                      </tooltip></Button>
-                      <Button fx:id="btnId" layoutX="329.0" layoutY="596.0" minWidth="78.0" mnemonicParsing="false" onAction="#IdStart" prefHeight="60.0" prefWidth="77.0" style="-fx-background-color: white;" styleClass="Id" stylesheets="@application.css" />
-                     <Button id="saveid" fx:id="savedBtn" layoutX="320.0" layoutY="596.0" minWidth="89.0" mnemonicParsing="false" onAction="#saveId" prefHeight="60.0" prefWidth="89.0" stylesheets="@application.css" visible="false">
-                     <tooltip>
-                        <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="enregistre ID" />
-                     </tooltip></Button>
+                      <Button fx:id="btnId" disable="true" layoutX="93.0" layoutY="597.0" minWidth="78.0" mnemonicParsing="false" onAction="#IdStart" prefHeight="60.0" prefWidth="77.0" style="-fx-background-color: white;" styleClass="Id" stylesheets="@application.css" visible="true" />
                   <Button fx:id="ocrBtn" disable="true" layoutX="692.0" layoutY="595.0" minWidth="85.0" mnemonicParsing="false" onAction="#ocrStart" prefHeight="60.0" prefWidth="85.0" styleClass="ocr" stylesheets="@application.css">
                      <tooltip>
                         <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="Imprimer photo" />
                      </tooltip></Button>
-                  <Button fx:id="motionBtn" disable="true" layoutX="142.0" layoutY="595.0" mnemonicParsing="false" onAction="#startMotion" prefHeight="60.0" prefWidth="90.0" styleClass="motion" stylesheets="@application.css">
+                  <Button fx:id="motionBtn" disable="true" layoutX="256.0" layoutY="597.0" mnemonicParsing="false" onAction="#startMotion" prefHeight="60.0" prefWidth="90.0" styleClass="motion" stylesheets="@application.css">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
@@ -126,11 +126,11 @@
                      <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #FF0000; -fx-font-size: 16;" text="supprimer user" />
                      </tooltip>
                   </Button>
-                  <Button fx:id="eyeBtn" disable="true" layoutX="509.0" layoutY="596.0" minWidth="84.0" mnemonicParsing="false" onAction="#startEyeDetect" prefHeight="60.0" prefWidth="84.0" styleClass="eye" stylesheets="@application.css">
+                  <Button fx:id="eyeBtn" disable="true" layoutX="536.0" layoutY="597.0" minWidth="84.0" mnemonicParsing="false" onAction="#startEyeDetect" prefHeight="60.0" prefWidth="84.0" styleClass="eye" stylesheets="@application.css">
                      <tooltip>
                         <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="Détecter les yeux" />
                      </tooltip></Button>
-                  <Button fx:id="shapeBtn" disable="true" layoutX="593.0" layoutY="596.0" mnemonicParsing="false" onAction="#shapeStart" prefHeight="60.0" prefWidth="92.0" styleClass="sqr" stylesheets="@application.css">
+                  <Button fx:id="shapeBtn" disable="true" layoutX="627.0" layoutY="595.0" mnemonicParsing="false" onAction="#shapeStart" prefHeight="60.0" prefWidth="92.0" styleClass="sqr" stylesheets="@application.css">
                      <tooltip>
                         <Tooltip prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #000080; -fx-font-size: 16;" text="Détecter objet" />
                      </tooltip></Button>
@@ -183,6 +183,7 @@
                   <Button fx:id="no_gitBtn" layoutX="693.0" layoutY="300.0" mnemonicParsing="false" onAction="#onExitGit" prefHeight="55.0" prefWidth="85.0" styleClass="no" stylesheets="@application.css" visible="false" />
                   <Button fx:id="no_gmailBtn" layoutX="692.0" layoutY="376.0" mnemonicParsing="false" onAction="#onExitGmail" prefHeight="55.0" prefWidth="87.0" styleClass="no" stylesheets="@application.css" visible="false" />
                   <Button fx:id="no_faceBtn" layoutX="692.0" layoutY="453.0" mnemonicParsing="false" onAction="#onExitFace" prefHeight="58.0" prefWidth="87.0" styleClass="no" stylesheets="@application.css" visible="false" />
+                  <Button fx:id="capturePic" disable="true" layoutX="175.0" layoutY="597.0" mnemonicParsing="false" onAction="#faceCap" stylesheets="@application.css" />
                </children>
             </AnchorPane>
         </content>
@@ -205,17 +206,17 @@
    <left>
       <TitledPane fx:id="dataPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="302.0" style="-fx-background-color: #9DBAD5;" text="Données personelles" BorderPane.alignment="CENTER">
          <content>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="532.0" prefWidth="300.0" style="-fx-background-color: #D3EEFF;">
+            <SplitPane dividerPositions="0.4446742502585315" orientation="VERTICAL" prefHeight="532.0" prefWidth="300.0" style="-fx-background-color: #D3EEFF;">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #9DBAD5;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="301.0" style="-fx-background-color: #9DBAD5;">
                      <children>
-                        <ListView fx:id="output" editable="true" layoutX="5.0" layoutY="4.0" prefHeight="376.0" prefWidth="286.0" style="-fx-padding: 10;">
+                        <ListView fx:id="output" editable="true" layoutX="5.0" layoutY="4.0" prefHeight="330.0" prefWidth="286.0" style="-fx-padding: 10;">
                            <effect>
                               <Glow />
                            </effect>
                         </ListView>
                      </children></AnchorPane>
-                <AnchorPane fx:id="pdPane" minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="300.0" style="-fx-background-color: #9DBAD5;">
+                <AnchorPane fx:id="pdPane" minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="301.0" style="-fx-background-color: #9DBAD5;">
                      <children>
                         <Label fx:id="title" layoutX="31.0" layoutY="-1.0" opacity="0.9" text="Les données de la personne:">
                            <font>
@@ -268,6 +269,7 @@
                            </font>
                         </Label>
                         <ImageView fx:id="motionView" fitHeight="211.0" fitWidth="298.0" layoutX="2.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <Button fx:id="ChargeIdBtn" layoutX="172.0" layoutY="298.0" mnemonicParsing="false" onAction="#chargerId" prefHeight="26.0" prefWidth="106.0" text="Charger Id" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" />
                      </children>
                   </AnchorPane>
               </items>
@@ -307,35 +309,12 @@
                                        </textFill>
                                     </Label>
                                     <Separator layoutX="64.0" layoutY="36.0" prefHeight="5.0" prefWidth="123.0" />
-                                    <ListView fx:id="logList" editable="true" layoutX="4.0" layoutY="46.0" prefHeight="122.0" prefWidth="256.0" style="-fx-padding: 10; -fx-background-color: #FFFFFF;">
+                                    <ListView fx:id="logList" editable="true" layoutX="4.0" layoutY="46.0" prefHeight="290.0" prefWidth="256.0" style="-fx-padding: 10; -fx-background-color: #FFFFFF;">
                                        <effect>
                                           <Glow />
                                        </effect>
                                     </ListView>
-                                    <Separator layoutX="70.0" layoutY="207.0" prefHeight="5.0" prefWidth="123.0" />
-                                    <Label layoutX="67.0" layoutY="175.0" text="OCR OUTPUT">
-                                       <font>
-                                          <Font name="Vermin Vibes 4 Helium" size="22.0" />
-                                       </font>
-                                       <textFill>
-                                          <LinearGradient endX="1.0" endY="1.0">
-                                             <stops>
-                                                <Stop color="#e41b1b" />
-                                                <Stop color="#1c59c3" offset="1.0" />
-                                             </stops>
-                                          </LinearGradient>
-                                       </textFill>
-                                    </Label>
-                                    <ScrollPane layoutX="7.0" layoutY="222.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="146.0" prefWidth="251.0" style="-fx-background-color: #9DBAD5;">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="146.0" prefWidth="254.0" style="-fx-background-color: #FFFFFF;">
-                                             <children>
-                                                <TextFlow fx:id="ocr" focusTraversable="true" layoutX="5.0" layoutY="6.0" prefHeight="143.0" prefWidth="246.0" style="-fx-background-color: #FFFFFF;" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                    <Label layoutX="44.0" layoutY="377.0" text="CARTE NATIONAL">
+                                    <Label layoutX="44.0" layoutY="336.0" text="CARTE NATIONAL">
                                        <textFill>
                                           <LinearGradient endX="1.0" endY="1.0">
                                              <stops>
@@ -348,9 +327,8 @@
                                           <Font size="22.0" />
                                        </font>
                                     </Label>
-                                    <Separator layoutX="58.0" layoutY="407.0" prefHeight="1.0" prefWidth="142.0" />
-                                 <ImageView fitHeight="222.0" fitWidth="251.0" layoutX="3.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" style="visibility: true;" />
-                                    <AnchorPane layoutX="-28.0" layoutY="368.0" prefHeight="316.0" prefWidth="321.0" />
+                                    <Separator layoutX="61.0" layoutY="366.0" prefHeight="1.0" prefWidth="142.0" />
+                                 <ImageView fitHeight="282.0" fitWidth="251.0" layoutX="7.0" layoutY="369.0" pickOnBounds="true" preserveRatio="true" style="visibility: true;" />
                                  </children>
                               </AnchorPane>
                            </content>

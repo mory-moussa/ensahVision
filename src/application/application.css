@@ -1,7 +1,20 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 
+#capturePic {
+	-fx-min-height: 60px;
 
+    -fx-min-width: 90px;
+
+	-fx-background-color:#FFFFFF ;
+    -fx-background-image: url("../face.png");
+
+    -fx-background-size: 50px 50px;
+
+    -fx-background-repeat: no-repeat;
+
+    -fx-background-position: center 7px;
+}
 
 .aaa
 {
@@ -19,21 +32,7 @@
 
     -fx-background-position: center 7px;
 }
-#saveid{
-	-fx-min-height: 60px;
 
-    -fx-min-width: 90px;
-
-	-fx-background-color:#FFFFFF ;
-    -fx-background-image: url("../capture_Id.png");
-
-    -fx-background-size: 50px 50px;
-
-    -fx-background-repeat: no-repeat;
-
-    -fx-background-position: center 7px;
-	
-}
 #savef
 {
 
@@ -42,7 +41,7 @@
     -fx-min-width: 90px;
 
 	-fx-background-color:#FFFFFF ;
-    -fx-background-image: url("../face.png");
+    -fx-background-image: url("../enregistrer.jpg");
 
     -fx-background-size: 50px 50px;
 

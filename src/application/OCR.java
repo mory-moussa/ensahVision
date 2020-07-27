@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class OCR
 {
-    public  String init() throws FontFormatException
+    public  static String init(String imgPath) throws FontFormatException
     {
     	try {
     	     GraphicsEnvironment ge = 
@@ -51,7 +51,7 @@ public class OCR
        }*/
        
        //read an image from default location for ocr output
-       PIX image=pixRead("ocr_test.png");
+       PIX image=pixRead(imgPath);
        if(image==null)
        {
     	   System.err.println("Could not opened the image or Image not found ");

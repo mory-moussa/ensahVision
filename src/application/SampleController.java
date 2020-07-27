@@ -13,21 +13,23 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
-
-import java.awt.FontFormatException;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 
-
+import javax.imageio.ImageIO;
 
 import application.FaceDetector;
 import application.Database;
@@ -48,7 +50,7 @@ public class SampleController {
 	@FXML
 	private Button btnId;
 	@FXML
-	private Button savedBtn;
+	private Button capturePic;
 	@FXML
 	private Button stopBtn;
 	@FXML
@@ -96,6 +98,8 @@ public class SampleController {
 	@FXML
 	private Button no_gitBtn;
 	@FXML
+	private Button chargerIdBtn;
+	@FXML
 	private ImageView frame;
 	@FXML
 	private WebView webview;
@@ -124,9 +128,11 @@ public class SampleController {
 	@FXML
 	public ProgressIndicator pb;
 	@FXML
-	public Label savedLabel;
+	public Label savedLabel=new Label();
 	@FXML
 	public Label warning;
+	@FXML
+	public  Label warning1;
 	@FXML
 	public Label title;
 //	@FXML
@@ -134,15 +140,15 @@ public class SampleController {
 	@FXML
 	public TextFlow ocr;
     @FXML
-	static
-     ImageView imageID=new ImageView();
+	static public ImageView imageID=new ImageView();
 
 
 //**********************************************************************************************
-	
+	public static int  cpt=0;
 	FaceDetector faceDetect = new FaceDetector();	//Creating Face detector object									
 	ColoredObjectTracker cot = new ColoredObjectTracker(); //Creating Color Object Tracker object		
-	Database database = new Database();		//Creating Database object
+	 Database database = new Database();
+	String path=new File("").getAbsolutePath();//Creating Database object
 
 	OCR ocrObj = new OCR();
 	ArrayList<String> user = new ArrayList<String>();
@@ -153,6 +159,7 @@ public class SampleController {
 
 	public boolean enabled = false;
 	public boolean isDBready = false;
+	public boolean isChargeId = false;
 
 
 	
@@ -168,6 +175,7 @@ public class SampleController {
 		logList.setItems(event);
 
 	}
+	
 
 	@FXML
 	protected void startCamera() throws SQLException {
@@ -180,8 +188,8 @@ public class SampleController {
 		faceDetect.setFrame(frame);
 		faceDetect.setImageId(imageID);
 		supprimeruser.setVisible(false);
-		btnId.setDisable(true);
-		savedBtn.setDisable(true);
+		btnId.setDisable(false);
+		
 		faceDetect.start();
 
 		if (!database.init()) {
@@ -200,10 +208,13 @@ public class SampleController {
 		stopBtn.setVisible(true);
 		ocrBtn.setDisable(false);
 		stopRecBtn.setDisable(true);
-		capBtn.setDisable(false);
+		capturePic.setDisable(false);
+		btnId.setDisable(false);
 		motionBtn.setDisable(false);
 		exit1.setDisable(false);
-		saveBtn.setDisable(false);
+		//saveBtn.setDisable(false);
+
+		
 	
 		if (isDBready) {
 			recogniseBtn.setDisable(false);
@@ -229,9 +240,112 @@ public class SampleController {
 		//**********************************************************************************************
 	}
 	int count = 0;
+	
+	@FXML
+	protected void chargerId() throws IOException {
+         
+		 FileChooser fileChooser = new FileChooser();
+		 fileChooser.setTitle("Open Resource File");
+		 fileChooser.getExtensionFilters().addAll(
+		         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		 File selectedFile = fileChooser.showOpenDialog(pdPane.getScene().getWindow());
+		 File file=new File(path+"\\ID\\id"+cpt+".jpg");
+		 BufferedImage img = ImageIO.read(selectedFile);
+		 ImageIO.write(img, "JPG", file);
+		 isChargeId=true;
+		 saveBtn.setVisible(false);
+		btnId.setVisible(true);
+			
+
+			
+		
+
+	
+	}
+	
 
 	@FXML
-	protected void faceRecognise() {
+	protected void faceCap() {
+		//Input Validation
+				if (fname.getText().trim().isEmpty() || reg.getText().trim().isEmpty() || code.getText().trim().isEmpty()) {
+
+					new Thread(() -> {
+
+						try {
+							warning.setVisible(true);
+
+							Thread.sleep(2000);
+
+							warning.setVisible(false);
+
+						} catch (InterruptedException ex) {
+						}
+
+					}).start();
+
+				} else {
+					//Progressbar
+					pb.setVisible(true);
+
+					savedLabel.setVisible(true);
+
+					new Thread(() -> {
+
+						try {
+
+							//faceDetect.setFname(fname.getText());
+
+							faceDetect.setFname(fname.getText());
+							faceDetect.setLname(lname.getText());
+							faceDetect.setAge(Integer.parseInt(age.getText()));
+							faceDetect.setCode(Integer.parseInt(code.getText()));
+							faceDetect.setSec(sec.getText());
+							faceDetect.setReg(Integer.parseInt(reg.getText()));
+							
+							
+							
+							javafx.application.Platform.runLater(new Runnable(){
+								
+								@Override
+								 public void run() {
+									pb.setProgress(100);
+								 }
+								 });
+							savedLabel.setVisible(true);
+							Thread.sleep(2000);
+							
+							javafx.application.Platform.runLater(new Runnable(){
+								
+								@Override
+								 public void run() {
+									pb.setVisible(false);
+								 }
+								 });
+							
+							
+							javafx.application.Platform.runLater(new Runnable(){
+								
+								@Override
+								 public void run() {
+							       savedLabel.setVisible(false);
+								 }
+								 });
+							
+
+						} catch (InterruptedException ex) {
+						}
+
+					}).start();
+					
+					faceDetect.setSaveFace(true);
+
+				}
+		         
+
+		
+	}
+	@FXML
+	protected void faceRecognise() throws FileNotFoundException {
 
 		
 		faceDetect.setIsRecFace(true);
@@ -255,8 +369,12 @@ public class SampleController {
             faceDetect.setShowId(true);
             imageID.setVisible(true);
             
+            //FileInputStream imageStream = new FileInputStream(path+"\\ID\\id"+faceDetect.getCode1()+".jpg");
+            //Image image1 = new Image (imageStream );
+
+            
 			//Retrieved data will be shown in Fetched Data pane
-			System.out.println("ça marche pas");
+			//System.out.println("ça marche pas");
 			String t = "********* Face Data: " + user.get(1) + " " + user.get(2) + " *********";
 
 			outEvent.add(t);
@@ -295,6 +413,8 @@ public class SampleController {
 			outEvent.add(s);
 
 			output.setItems(outEvent);
+			//imageID.setImage(image1);
+			//imageID.setVisible(true);
 			
 	        
 		}
@@ -338,40 +458,36 @@ public class SampleController {
 
 		supprimeruser.setVisible(false);
 		//Input Validation
-		if (fname.getText().trim().isEmpty() || reg.getText().trim().isEmpty() || code.getText().trim().isEmpty()) {
-
-			new Thread(() -> {
-
-				try {
-					warning.setVisible(true);
-
-					Thread.sleep(2000);
-
-					warning.setVisible(false);
-
-				} catch (InterruptedException ex) {
-				}
-
-			}).start();
-
-		} else {
-			//Progressbar
-			pb.setVisible(true);
-
-			savedLabel.setVisible(true);
-
-			new Thread(() -> {
+			System.out.println(fname.getText()+","+lname.getText()+","+faceDetect.getRecogniseCode());
+			System.out.println(faceDetect.getNom()+","+faceDetect.getPrenom()+","+faceDetect.getCode1());
+			if ( faceDetect.getNom().equalsIgnoreCase(fname.getText()) && faceDetect.getPrenom().equalsIgnoreCase(lname.getText()) && faceDetect.getCode1()==Integer.parseInt(code.getText())) {
+			
+          	new Thread(() -> {
 
 				try {
+ 
+					//Progressbar
+					pb.setVisible(true);
 
+					savedLabel.setVisible(true);
 					//faceDetect.setFname(fname.getText());
 
-					faceDetect.setFname(fname.getText());
+					/*faceDetect.setFname(fname.getText());
 					faceDetect.setLname(lname.getText());
 					faceDetect.setAge(Integer.parseInt(age.getText()));
 					faceDetect.setCode(Integer.parseInt(code.getText()));
 					faceDetect.setSec(sec.getText());
 					faceDetect.setReg(Integer.parseInt(reg.getText()));
+				    faceDetect.setSaveId(true);*/
+					File ancien = new File(path+"\\ID\\id"+cpt+".jpg");
+				      File nouveau = new File(path+"\\ID\\id"+faceDetect.getCode1()+".jpg");
+
+				      if(ancien.renameTo(nouveau))
+				         System.out.println("Le fichier "+ancien+" a bien été renommé.");
+				      else
+				         System.out.println("Echec! Le fichier "+ancien+" n'a pas pu être renommé.");
+				  
+				    
 
 					database.setFname(fname.getText());
 					database.setLname(lname.getText());
@@ -382,6 +498,7 @@ public class SampleController {
 
 					database.insert();
 					
+					faceDetect.setCount(faceDetect.getCount()+1);
 					javafx.application.Platform.runLater(new Runnable(){
 						
 						@Override
@@ -414,11 +531,43 @@ public class SampleController {
 				}
 
 			}).start();
-			
-			faceDetect.setSaveFace(true);
 
-		}
-         
+
+			}
+			else {
+				new Thread(() -> {
+
+					try {
+						warning1.setVisible(true);
+
+						Thread.sleep(2000);
+
+						warning1.setVisible(false);
+
+					} catch (InterruptedException ex) {
+					}
+
+				  }).start();
+				//database.userDelete(user.get(1) , user.get(2));
+				File root = new File("./faces");
+				File[] imageFiles = root.listFiles();
+				for (File image : imageFiles) {
+					if(image.getName().startsWith(code.getText()+"-"+fname.getText()+"_"+lname.getText())){
+				
+			          	System.out.println(count);//file to be delete  
+				        image.delete();
+					}
+				}
+				
+				/*File f1= new File(path+"\\ID\\id"+SampleController.cpt+".jpg");  //file to be delete  
+				f1.delete();*/
+				
+				
+			}
+		
+		/*saveBtn.setVisible(false);
+		btnId.setVisible(true);*/
+		
 	}
 
 	@FXML
@@ -444,28 +593,30 @@ public class SampleController {
 		supprimeruser.setDisable(true);
 		motionBtn.setDisable(true);
 		ocrBtn.setDisable(true);
-		capBtn.setDisable(true);
+		capturePic.setDisable(true);
+		btnId.setDisable(true);
 		database.db_close();
 		putOnLog("Database Connection Closed");
 		isDBready=false;
+		
 	}
 
 	@FXML
 	protected void ocrStart() {
 
 		supprimeruser.setVisible(false);
-		try {
+		/*try {
 			
-			Text text1 = new Text(ocrObj.init());
+			//Text text1 = new Text(ocrObj.init());
 
-			text1.setStyle("-fx-font-size: 14; -fx-fill: blue;");
+		//	text1.setStyle("-fx-font-size: 14; -fx-fill: blue;");
 
-			ocr.getChildren().add(text1);
+		//	ocr.getChildren().add(text1);
 
 		} catch (FontFormatException e) {
 
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 
@@ -682,18 +833,79 @@ public class SampleController {
 	}
 	@FXML
 	protected void IdStart() {
-
-
 		// printOutput(faceDetect.getOutput());
 
 		//recogniseBtn.setText("Voir les données");
 
-		//Getting detected faces    
-     
-            savedBtn.setVisible(true);
-			
-	       
+		//Getting detected faces   
+		if (fname.getText().trim().isEmpty() ||lname.getText().trim().isEmpty()|| reg.getText().trim().isEmpty() || code.getText().trim().isEmpty() || isChargeId==false ) {
 
+			new Thread(() -> {
+
+				try {
+					
+					warning.setVisible(true);
+
+					Thread.sleep(2000);
+
+					warning.setVisible(false);
+
+				} catch (InterruptedException ex) {
+				}
+
+			}).start();
+
+		}else {
+		//Progressbar
+			new Thread(() -> {
+
+				try {
+		    pb.setVisible(true);
+            faceDetect.setFname(fname.getText());
+    		faceDetect.setLname(lname.getText());
+    		faceDetect.setAge(Integer.parseInt(age.getText()));
+    		faceDetect.setCode(Integer.parseInt(code.getText()));
+    		
+    		faceDetect.setSec(sec.getText());
+    		faceDetect.setReg(Integer.parseInt(reg.getText()));
+    	    faceDetect.setSaveId(true);
+    	    saveBtn.setVisible(true);
+    	    saveBtn.setDisable(false);
+    	    btnId.setVisible(false);
+    	    javafx.application.Platform.runLater(new Runnable(){
+				
+				@Override
+				 public void run() {
+					pb.setProgress(100);
+				 }
+				 });
+			
+			Thread.sleep(2000);
+			
+			javafx.application.Platform.runLater(new Runnable(){
+				
+				@Override
+				 public void run() {
+					pb.setVisible(false);
+				 }
+				 });
+			
+			
+			javafx.application.Platform.runLater(new Runnable(){
+				
+				@Override
+				 public void run() {
+			       savedLabel.setVisible(false);
+				 }
+				 });
+			
+
+		} catch (InterruptedException ex) {
+		}
+
+	}).start();
+    	   
+		}
 	}
 	
 	@FXML
@@ -748,6 +960,7 @@ public class SampleController {
 			}).start();
 			
 			faceDetect.setSaveId(true);
+			faceDetect.setSaveFace(true);
 		}
 	
 

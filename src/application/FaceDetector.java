@@ -1,8 +1,23 @@
 package application;
 
-import application.FaceRecognizer;
-import java.awt.BasicStroke;
+import static org.bytedeco.javacpp.helper.opencv_objdetect.cvHaarDetectObjects;
+import static org.bytedeco.javacpp.opencv_core.cvClearMemStorage;
+import static org.bytedeco.javacpp.opencv_core.cvCopy;
+import static org.bytedeco.javacpp.opencv_core.cvCreateImage;
+import static org.bytedeco.javacpp.opencv_core.cvGetSeqElem;
+import static org.bytedeco.javacpp.opencv_core.cvGetSize;
+import static org.bytedeco.javacpp.opencv_core.cvLoad;
+import static org.bytedeco.javacpp.opencv_core.cvReleaseImage;
+import static org.bytedeco.javacpp.opencv_core.cvSetImageROI;
+import static org.bytedeco.javacpp.opencv_core.cvSize;
+import static org.bytedeco.javacpp.opencv_imgcodecs.cvSaveImage;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_BGR2GRAY;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_INTER_AREA;
+import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
+import static org.bytedeco.javacpp.opencv_imgproc.cvResize;
+import static org.bytedeco.javacpp.opencv_objdetect.CV_HAAR_DO_CANNY_PRUNING;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,35 +26,44 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 import javax.imageio.ImageIO;
+
 import org.bytedeco.javacpp.Loader;
+import org.bytedeco.javacpp.opencv_core.CvMemStorage;
+import org.bytedeco.javacpp.opencv_core.CvPoint;
+import org.bytedeco.javacpp.opencv_core.CvRect;
+import org.bytedeco.javacpp.opencv_core.CvSeq;
 import org.bytedeco.javacpp.opencv_objdetect;
+import org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade;
 import org.bytedeco.javacpp.helper.opencv_core.AbstractCvMemStorage;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameConverter;
+import org.bytedeco.javacv.OpenCVFrameConverter.ToIplImage;
 import org.bytedeco.javacv.OpenCVFrameGrabber;
-import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
-import static org.bytedeco.javacpp.opencv_imgcodecs.*;
-import static org.bytedeco.javacpp.opencv_objdetect.*;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+
+import org.bytedeco.javacpp.opencv_core.IplImage;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import application.Database;
-import application.MotionDetector;
-
-
+import javafx.scene.shape.Path;
+import net.sourceforge.tess4j.*;
 
 public class FaceDetector implements Runnable {
 	
@@ -61,12 +85,12 @@ public class FaceDetector implements Runnable {
 	public Label ll;
 	private Exception exception = null;
 	
-	private int count = 0;
+	private int count = 15;
 	public String classiferName;
 	public File classifierFile;
 	String path=new File("").getAbsolutePath();
 	
-	
+	public boolean saveF = false;
 	public boolean saveFace = false;
 	public boolean isRecFace = false;
 	public boolean isOutput = false;
@@ -97,6 +121,7 @@ public class FaceDetector implements Runnable {
 	public ImageView frames;
     private ImageView imageId=new ImageView();
     private BufferedImage image2;
+    public IplImage iplImage=null;
 	
 	
 	private CvSeq faces = null;
@@ -113,11 +138,14 @@ public class FaceDetector implements Runnable {
 	public int code;
 	public int reg;
 	public int age;
+	public int Code1;
 	
 	public String fname; //first name
 	public String Lname; //last name
 	public String sec; //section
 	public String name; 
+	public String Prenom;
+	public String Nom;
 
 	public void init() {
 		faceRecognizer.init();
@@ -166,8 +194,8 @@ public class FaceDetector implements Runnable {
 				grabbedImage = grabberConverter.convert(grabber.grab());
 
 			}
-			int count = 15;
-			grayImage = cvCreateImage(cvGetSize(grabbedImage), 8, 1); //converting image to grayscale
+			
+			grayImage =   cvCreateImage(cvGetSize(grabbedImage), 8, 1); ; //converting image to grayscale
 			
 			//reducing the size of the image to speed up the processing
 			smallImage = cvCreateImage(cvSize(grabbedImage.width() / 4, grabbedImage.height() / 4), 8, 1); 
@@ -291,9 +319,9 @@ public class FaceDetector implements Runnable {
 
 										names = user.get(1) + " " + user.get(2);
 										if (showId) {
-											try {
+											/*try {
 												
-												 file = new File(path+"\\src\\"+recogniseCode+".jpg");
+												 file = new File(path+"\\ID\\id"+recogniseCode+".jpg");
 												  image2 = ImageIO.read(file);
 												
 												  SampleController.imageID.setFitHeight(240);
@@ -312,7 +340,7 @@ public class FaceDetector implements Runnable {
 												e.printStackTrace();
 												showId=false;
 												System.out.println("tu n'a pas une carte national disponible");
-											}
+											}*/
 											showId=false;
 
 										}
@@ -328,24 +356,95 @@ public class FaceDetector implements Runnable {
 
 								}
 
-								if (saveFace) { 
-									String fName = "faces/" + code + "-" + fname + "_" + Lname + "_" + count + ".jpg";
-									cvSaveImage(fName, temp);
-									count++;
-
-								}
+								
+								
 
 							}
+							if(saveFace) {
+								String fName = "faces/" + code + "-" + fname + "_" + Lname + "_" + count + ".jpg";
+								cvSaveImage(fName, temp);
+								count++;}
+							saveFace=false;
+							
 							if (saveId) {
-								this.recogniseCode = faceRecognizer.recognize(temp);
-								System.out.println(this.recogniseCode);
-								String fName = "./" + this.recogniseCode +".jpg";
-								cvSaveImage(fName, grabbedImage);
-								compteur++;
+								
+                                
+								//extraire données de la carte national 
+								File file =new File(path+"\\ID\\id"+SampleController.cpt+".jpg");
+								
+								 BufferedImage img1=ImageIO.read(file);
+								ToIplImage iplConverter = new OpenCVFrameConverter.ToIplImage();
+							    Java2DFrameConverter java2dConverter = new Java2DFrameConverter();
+							     iplImage = iplConverter.convert(java2dConverter.convert(img1));
+							    
+							    IplImage grabId=cvCreateImage(cvGetSize(iplImage), 8, 1);;
+							    
+							    cvCvtColor(iplImage,grabId,CV_BGR2GRAY);
+							  
+							   
+								cvSaveImage("IDgray/idgray.jpg",grabId);
+                  		    	String[] dRecuperer=OCR.init(path+"\\IDgray\\idgray.jpg").split("\n");
+                  		    	//Recuperer nom et prenom
+								String[] dRecupererPrenom=dRecuperer[3].split(" ");
+								String[] dRecupererNom=dRecuperer[5].split("[ \\W]");
+								String dRecupererNom1 = dRecupererNom[1].replaceAll("[^A-Za-z]+", "");
+							     Prenom=dRecupererPrenom[0];
+								  Nom="";
+								//comparer nom et prenom
+								if(dRecupererNom[1].equals(dRecupererNom1)) {
+									Nom=dRecupererNom[0]+" "+dRecupererNom[1];
+								//System.out.println(dRecupererNom[0]+","+dRecupererNom[1]+","+dRecupererPrenom[0]);
+								}
+								else {
+									Nom=dRecupererNom[0];
+									//System.out.println(dRecupererNom[0]+","+dRecupererPrenom[0]);
+								}
+								System.out.println(fname+","+Lname);
+								System.out.println(Nom+","+Prenom);
+								
+								//comparer le visage
+								
+		                               IplImage grayImage1 =   cvCreateImage(cvGetSize(iplImage), 8, 1); ; //converting image to grayscale
+										
+										//reducing the size of the image to speed up the processing
+										IplImage smallImage1 = cvCreateImage(cvSize(iplImage.width() / 4, iplImage.height() / 4), 8, 1); 
+										IplImage temp7 = cvCreateImage(cvGetSize(iplImage), iplImage.depth(), iplImage.nChannels());
 
+										cvCopy(iplImage, temp7);
+
+										cvCvtColor(iplImage, grayImage1, CV_BGR2GRAY);
+										cvResize(grayImage1, smallImage1, CV_INTER_AREA);
+										
+										//cvHaarDetectObjects(image, cascade, storage, scale_factor, min_neighbors, flags, min_size, max_size)
+										 CvSeq faces1 =null;
+												faces1=cvHaarDetectObjects(smallImage1, classifier, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING);
+										if(faces1!=null) {
+											for (int i = 0; i < total; i++) {
+												
+												//printing rectange box where face detected frame by frame
+												CvRect r = new CvRect(cvGetSeqElem(faces1, i));
+											
+
+												CvRect re = new CvRect((r.x() * 4), r.y() * 4, (r.width() * 4), r.height() * 4);
+
+												cvSetImageROI(temp7, re);
+										}
+										}
+									
+										cvSaveImage("ID/idtest1.jpg", temp7);
+									    Code1 = faceRecognizer.recognize(temp7);
+										System.out.println(Code1);
+										
+									
+									
+								
+									
+								
+								compteur++;
+							
+		
 							}
 							
-							this.saveFace = false;
 							this.saveId = false;
 							faces = null;
 						}
@@ -387,8 +486,8 @@ public class FaceDetector implements Runnable {
 					cvReleaseImage(temp);
 				}
 
-			}
-
+				}
+			
 		} catch (Exception e) {
 			if (exception == null) {
 				exception = e;
@@ -723,6 +822,47 @@ public class FaceDetector implements Runnable {
 		this.showId = showId;
 		
 	}
+
+	public boolean isSaveF() {
+		return saveF;
+	}
+
+	public void setSaveF(boolean saveF) {
+		this.saveF = saveF;
+	}
+
+	public int getCode1() {
+		return Code1;
+	}
+
+	public void setCode1(int code1) {
+		Code1 = code1;
+	}
+
+	public String getPrenom() {
+		return Prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		Prenom = prenom;
+	}
+
+	public String getNom() {
+		return Nom;
+	}
+
+	public void setNom(String nom) {
+		Nom = nom;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 	
 
 
